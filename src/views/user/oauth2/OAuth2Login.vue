@@ -4,7 +4,7 @@
       <div id="loader"></div>
       <div class="loader-section section-left"></div>
       <div class="loader-section section-right"></div>
-      <div class="load_title">正在登录 JeecgBoot 低代码平台，请耐心等待</div>
+      <div class="load_title">智能数字孪生马上为您开启，请您稍候</div>
     </div>
   </div>
 </template>
