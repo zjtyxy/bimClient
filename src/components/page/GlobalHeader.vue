@@ -17,8 +17,8 @@
         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
         @click="toggle"/>
 
-      <span v-if="device === 'desktop'">欢迎进入 Jeecg-Boot 企业级低代码平台</span>
-      <span v-else>Jeecg-Boot</span>
+      <span v-if="device === 'desktop'">智能孪生系统欢迎您</span>
+      <span v-else>智能BIM</span>
 
       <user-menu :theme="theme"/>
     </div>
@@ -49,179 +49,181 @@
 </template>
 
 <script>
-  import UserMenu from '../tools/UserMenu'
-  import SMenu from '../menu/'
-  import Logo from '../tools/Logo'
-  import { mixin } from '@/utils/mixin.js'
+import UserMenu from '../tools/UserMenu'
+import SMenu from '../menu/'
+import Logo from '../tools/Logo'
+import { mixin } from '@/utils/mixin.js'
 
-  export default {
-    name: 'GlobalHeader',
-    components: {
-      UserMenu,
-      SMenu,
-      Logo,
+export default {
+  name: 'GlobalHeader',
+  components: {
+    UserMenu,
+    SMenu,
+    Logo,
+  },
+  mixins: [mixin],
+  props: {
+    mode: {
+      type: String,
+      // sidemenu, topmenu
+      default: 'sidemenu'
     },
-    mixins: [mixin],
-    props: {
-      mode: {
-        type: String,
-        // sidemenu, topmenu
-        default: 'sidemenu'
-      },
-      menus: {
-        type: Array,
-        required: true
-      },
-      theme: {
-        type: String,
-        required: false,
-        default: 'dark'
-      },
-      collapsed: {
-        type: Boolean,
-        required: false,
-        default: false
-      },
-      device: {
-        type: String,
-        required: false,
-        default: 'desktop'
-      }
+    menus: {
+      type: Array,
+      required: true
     },
-    data() {
-      return {
-        headerBarFixed: false,
-        //update-begin--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
-        topMenuStyle: {
-          headerIndexLeft: {},
-          topNavHeader: {},
-          headerIndexRight: {},
-          topSmenuStyle: {}
-        },
-        chatStatus: '',
-      }
+    theme: {
+      type: String,
+      required: false,
+      default: 'dark'
     },
-    watch: {
-      /** 监听设备变化 */
-      device() {
-        if (this.mode === 'topmenu') {
-          this.buildTopMenuStyle()
-        }
-      },
-      /** 监听导航栏模式变化 */
-      mode(newVal) {
-        if (newVal === 'topmenu') {
-          this.buildTopMenuStyle()
-        }
-      }
+    collapsed: {
+      type: Boolean,
+      required: false,
+      default: false
     },
-    //update-end--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
-    mounted() {
-      window.addEventListener('scroll', this.handleScroll)
+    device: {
+      type: String,
+      required: false,
+      default: 'desktop'
+    }
+  },
+  data() {
+    return {
+      headerBarFixed: false,
       //update-begin--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
+      topMenuStyle: {
+        headerIndexLeft: {},
+        topNavHeader: {},
+        headerIndexRight: {},
+        topSmenuStyle: {}
+      },
+      chatStatus: '',
+    }
+  },
+  watch: {
+    /** 监听设备变化 */
+    device() {
       if (this.mode === 'topmenu') {
         this.buildTopMenuStyle()
       }
-      //update-end--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
     },
-    methods: {
-      handleScroll() {
-        if (this.autoHideHeader) {
-          let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-          if (scrollTop > 100) {
-            this.headerBarFixed = true
-          } else {
-            this.headerBarFixed = false
-          }
+    /** 监听导航栏模式变化 */
+    mode(newVal) {
+      if (newVal === 'topmenu') {
+        this.buildTopMenuStyle()
+      }
+    }
+  },
+  //update-end--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll)
+    //update-begin--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
+    if (this.mode === 'topmenu') {
+      this.buildTopMenuStyle()
+    }
+    //update-end--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
+  },
+  methods: {
+    handleScroll() {
+      if (this.autoHideHeader) {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        if (scrollTop > 100) {
+          this.headerBarFixed = true
         } else {
           this.headerBarFixed = false
         }
-      },
-      toggle() {
-        this.$emit('toggle')
-      },
-      //update-begin--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
-      buildTopMenuStyle() {
-        if (this.mode === 'topmenu') {
-          if (this.device === 'mobile') {
-            // 手机端需要清空样式，否则显示会错乱
-            this.topMenuStyle.topNavHeader = {}
-            this.topMenuStyle.topSmenuStyle = {}
-            this.topMenuStyle.headerIndexRight = {}
-            this.topMenuStyle.headerIndexLeft = {}
-          } else {
-            let rightWidth = '360px'
-            this.topMenuStyle.topNavHeader = { 'min-width': '165px' }
-            this.topMenuStyle.topSmenuStyle = { 'width': 'calc(100% - 165px)' }
-            this.topMenuStyle.headerIndexRight = { 'min-width': rightWidth }
-            this.topMenuStyle.headerIndexLeft = { 'width': `calc(100% - ${rightWidth})` }
-          }
+      } else {
+        this.headerBarFixed = false
+      }
+    },
+    toggle() {
+      this.$emit('toggle')
+    },
+    //update-begin--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
+    buildTopMenuStyle() {
+      if (this.mode === 'topmenu') {
+        if (this.device === 'mobile') {
+          // 手机端需要清空样式，否则显示会错乱
+          this.topMenuStyle.topNavHeader = {}
+          this.topMenuStyle.topSmenuStyle = {}
+          this.topMenuStyle.headerIndexRight = {}
+          this.topMenuStyle.headerIndexLeft = {}
+        } else {
+          let rightWidth = '360px'
+          this.topMenuStyle.topNavHeader = { 'min-width': '165px' }
+          this.topMenuStyle.topSmenuStyle = { 'width': 'calc(100% - 165px)' }
+          this.topMenuStyle.headerIndexRight = { 'min-width': rightWidth }
+          this.topMenuStyle.headerIndexLeft = { 'width': `calc(100% - ${rightWidth})` }
         }
-      },
-      //update-begin--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
+      }
+    },
+    //update-begin--author:sunjianlei---date:20190508------for: 顶部导航栏过长时显示更多按钮-----
 
-      // update-begin-author:sunjianlei date:20210508 for: 修复动态功能测试菜单、带参数菜单标题错误、展开错误的问题
-      handleUpdateMenuTitle(value) {
-        this.$emit('updateMenuTitle', value)
-      },
-      // update-end-author:sunjianlei date:20210508 for: 修复动态功能测试菜单、带参数菜单标题错误、展开错误的问题
+    // update-begin-author:sunjianlei date:20210508 for: 修复动态功能测试菜单、带参数菜单标题错误、展开错误的问题
+    handleUpdateMenuTitle(value) {
+      this.$emit('updateMenuTitle', value)
+    },
+    // update-end-author:sunjianlei date:20210508 for: 修复动态功能测试菜单、带参数菜单标题错误、展开错误的问题
 
-    }
   }
+}
 </script>
 
 <style lang="less" scoped>
-  /* update_begin author:scott date:20190220 for: 缩小首页布局顶部的高度*/
+/* update_begin author:scott date:20190220 for: 缩小首页布局顶部的高度*/
 
-  @height: 59px;
+@height: 59px;
 
-  .layout {
+.layout {
 
-    .top-nav-header-index {
+  .top-nav-header-index {
 
-      .header-index-wide {
-        margin-left: 10px;
+    .header-index-wide {
+      margin-left: 10px;
 
-        .ant-menu.ant-menu-horizontal {
-          height: @height;
-          line-height: @height;
-        }
-      }
-      .trigger {
-        line-height: 64px;
-        &:hover {
-          background: rgba(0, 0, 0, 0.05);
-        }
+      .ant-menu.ant-menu-horizontal {
+        height: @height;
+        line-height: @height;
       }
     }
-
-    .header {
-      z-index: 2;
-      color: white;
-      height: @height;
-      background-color: @primary-color;
-      transition: background 300ms;
-
-      /* dark 样式 */
-      &.dark {
-        color: #000000;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-        background-color: white !important;
-      }
-    }
-
-    .header, .top-nav-header-index {
-      &.dark .trigger:hover {
+    .trigger {
+      line-height: 64px;
+      &:hover {
         background: rgba(0, 0, 0, 0.05);
       }
     }
   }
 
-  .ant-layout-header {
+  .header {
+    z-index: 2;
+    color: white;
     height: @height;
-    line-height: @height;
+    // background-color: @primary-color;
+    // transition: background 300ms;
+    background: linear-gradient(180deg, #3971A1 0%, #5782AB 100%);
+    opacity: 1;
+
+    /* dark 样式 */
+    &.dark {
+      color: #000000;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+      background-color: white !important;
+    }
   }
 
-  /* update_end author:scott date:20190220 for: 缩小首页布局顶部的高度*/
+  .header, .top-nav-header-index {
+    &.dark .trigger:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+
+.ant-layout-header {
+  height: @height;
+  line-height: @height;
+}
+
+/* update_end author:scott date:20190220 for: 缩小首页布局顶部的高度*/
 
 </style>
