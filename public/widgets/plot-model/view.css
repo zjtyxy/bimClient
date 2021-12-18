@@ -1,0 +1,76 @@
+﻿.infoview div {
+  margin-bottom: 5px;
+}
+
+.divGltfAll,
+.divDrawGltf {
+  height: 30px;
+  width: 130px;
+}
+
+.changeDiv {
+  position: absolute;
+  top: 20px;
+}
+
+.commonDrawGltf {
+  position: absolute;
+  top: 140px;
+}
+.commonDrawGltf div {
+  margin-bottom: 20px;
+}
+
+.gltfPullDown {
+  position: absolute;
+  top: 80px;
+  width: 300px;
+  height: calc(100% - 160px);
+  overflow: hidden;
+  border: 1px solid rgba(0, 102, 255, 0.568);
+  border-radius: 5px;
+  background-color: #353e488e;
+}
+
+.pullDown select {
+  height: 30px;
+  width: 90%;
+  margin-left: 12px;
+  color: white;
+  border-radius: 5px;
+  background: none;
+  line-height: 35px;
+}
+
+.gltfPullDown select option {
+  background-color: #353e488e;
+  height: 25px;
+  color: white;
+}
+
+.gltfPullDown select :hover {
+  background-color: gray;
+}
+
+.gltfImg {
+  width: 112%;
+  height: 95%;
+  margin-left: -23px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.gltfImg li {
+  display: inline-block;
+  /* margin-left: -25px; */
+  margin-right: 25px;
+  width: 100px;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.gltfImg img {
+  width: 105px;
+  height: 90px;
+  border: 1.5px solid white;
+}
