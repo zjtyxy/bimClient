@@ -94,7 +94,7 @@ export default {
 
         .title {
           font-size: 50px;
-          color: rgba(0, 0, 0, .85);
+          color: rgba(255, 255, 255, .85);
           font-family: "PingFangSC-Semibold", "PingFang SC";
           font-weight: 600;
           position: relative;

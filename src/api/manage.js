@@ -62,7 +62,12 @@ export function getAction(url,parameter) {
     headers: signHeader
   })
 }
-
+export   function getActionAsync(url,parameter) {
+  let xmlhttp=new XMLHttpRequest();
+  xmlhttp.open("GET",url,false);
+  xmlhttp.send(null);
+  return xmlhttp.responseText
+}
 //deleteAction
 export function deleteAction(url,parameter) {
   return axios({

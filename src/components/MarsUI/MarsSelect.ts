@@ -1,5 +1,5 @@
 import { Select } from "ant-design-vue"
-import { App, defineComponent, h } from "vue"
+
 
 /**
  * 下拉选择控件
@@ -16,7 +16,7 @@ const MarsSesect = defineComponent({
   }
 })
 
-export function install (app: App): App {
+export function install (app): App {
   app.component(MarsSesect.name, MarsSesect)
   return app
 }
