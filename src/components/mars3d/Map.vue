@@ -78,7 +78,7 @@ export default {
 
 <style >
 .mars3d-container {
-  height: 80%;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -232,5 +232,11 @@ export default {
 
 .toolbar-dropdown-menu i {
   padding-right: 5px;
+}
+.ant-modal-body {
+  padding: 5px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
 }
 </style>

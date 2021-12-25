@@ -26,23 +26,105 @@
           <j-dict-select-tag disabled type="list" v-model="model.modelId"  dictCode="bim_model,name,id" placeholder="请选择所属模型" />
         </a-form-model-item>
       </a-form-model>
+      <a-table
+        ref="table"
+        size="middle"
+        :scroll="{x:true}"
+        bordered
+        rowKey="id"
+        :columns="columns"
+        :dataSource="dataSource"
+        :pagination="ipagination"
+        :loading="loading"
+        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+        class="j-table-force-nowrap"
+        @change="handleTableChange">
+
+        <template slot="htmlSlot" slot-scope="text">
+          <div v-html="text"></div>
+        </template>
+        <template slot="imgSlot" slot-scope="text">
+          <span v-if="!text" style="font-size: 12px;font-style: italic;">无图片</span>
+          <img v-else :src="getImgView(text)" height="25px" alt=""
+               style="max-width:80px;font-size: 12px;font-style: italic;"/>
+        </template>
+        <template slot="fileSlot" slot-scope="text">
+          <span v-if="!text" style="font-size: 12px;font-style: italic;">无文件</span>
+          <a-button
+            v-else
+            :ghost="true"
+            type="primary"
+            icon="download"
+            size="small"
+            @click="downloadFile(text)">
+            下载
+          </a-button>
+        </template>
+
+        <span slot="action" slot-scope="text, record">
+          <a @click="handleEdit(record)">编辑</a>
+<!--          <a-divider type="vertical"/>-->
+<!--          <a @click="handleDetail(record)">详情</a>-->
+          <a-divider type="vertical"/>
+             <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
+                  <a>删除</a>
+                </a-popconfirm>
+            <a-divider type="vertical"/>
+
+        </span>
+
+      </a-table>
     </a-spin>
+    <bim-model-attrs-categories-modal ref="modalForm" @ok="modalFormOk"/>
   </j-modal>
 </template>
 
 <script>
-
+   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import { httpAction } from '@/api/manage'
+   import BimModelAttrsCategoriesModal from './BimModelAttrsCategoriesModal'
   import { validateDuplicateValue } from '@/utils/util'
   export default {
     name: "BimModelAttrsModal",
+    mixins:[JeecgListMixin],
     components: {
+      BimModelAttrsCategoriesModal
     },
     data () {
       return {
         title:"操作",
         width:800,
         visible: false,
+        columns: [
+          {
+            title: '#',
+            dataIndex: '',
+            key:'rowIndex',
+            width:60,
+            align:"center",
+            customRender:function (t,r,index) {
+              return parseInt(index)+1;
+            }
+          },
+          {
+            title:'名称',
+            align:"center",
+            dataIndex: 'name'
+          },
+          {
+            title:'数量',
+            align:"center",
+            dataIndex: 'count'
+          },
+          {
+            title: '操作',
+            dataIndex: 'action',
+            align:"center",
+            fixed:"right",
+            width:147,
+            scopedSlots: { customRender: 'action' },
+          }
+        ],
         model:{
          },
         labelCol: {
@@ -60,6 +142,11 @@
         url: {
           add: "/bim/bimModelAttrs/add",
           edit: "/bim/bimModelAttrs/edit",
+          list: "/bim/bimModelAttrsCategories/list",
+          delete: "/bim/bimModelAttrsCategories/delete",
+          deleteBatch: "/bim/bimModelAttrsCategories/deleteBatch",
+          exportXlsUrl: "/bim/bimModelAttrsCategories/exportXls",
+          importExcelUrl: "bim/bimModelAttrsCategories/importExcel",
         },
         expandedRowKeys:[],
         pidField:"parentId"
@@ -68,7 +155,9 @@
     },
     created () {
        //备份model原始值
+
        this.modelDefault = JSON.parse(JSON.stringify(this.model));
+
     },
     methods: {
       add (obj) {
@@ -77,6 +166,10 @@
       },
       edit (record) {
         this.model = Object.assign({}, record);
+        debugger
+     //   this.queryParam.test=this.model.externalId;
+        this.queryParam.mainId=this.model.dbId;
+        this.searchQuery()
         this.visible = true;
       },
       close () {

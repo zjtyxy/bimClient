@@ -4,14 +4,14 @@
       <!-- 主表单区域 -->
       <a-form-model ref="form" :model="model" :rules="validatorRules" slot="detail">
         <a-row>
-          <a-col :span="24" >
+          <a-col :span="12" >
             <a-form-model-item label="名称" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="name">
               <a-input v-model="model.name" placeholder="请输入名称" ></a-input>
             </a-form-model-item>
           </a-col>
-          <a-col :span="24">
-            <a-form-model-item label="数量" :labelCol="labelCol2" :wrapperCol="wrapperCol2" prop="count">
-              <a-textarea v-model="model.count" rows="4" placeholder="请输入数量" />
+          <a-col :span="12" >
+            <a-form-model-item label="数量" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="count">
+              <a-input-number v-model="model.count" placeholder="请输入数量" style="width: 100%" />
             </a-form-model-item>
           </a-col>
         </a-row>
@@ -81,7 +81,7 @@
           columns: [
             {
               title: '名称',
-              key: 'name',
+              key: 'names',
               type: FormTypes.input,
               width:"200px",
               placeholder: '请输入${title}',
@@ -89,7 +89,7 @@
             },
             {
               title: '类型',
-              key: 'type',
+              key: 'types',
               type: FormTypes.input,
               width:"200px",
               placeholder: '请输入${title}',
@@ -97,7 +97,7 @@
             },
             {
               title: '类型值',
-              key: 'value',
+              key: 'valuesT',
               type: FormTypes.input,
               width:"200px",
               placeholder: '请输入${title}',
@@ -106,6 +106,14 @@
             {
               title: '标志',
               key: 'flags',
+              type: FormTypes.input,
+              width:"200px",
+              placeholder: '请输入${title}',
+              defaultValue:'',
+            },
+            {
+              title: '单位',
+              key: 'units',
               type: FormTypes.input,
               width:"200px",
               placeholder: '请输入${title}',

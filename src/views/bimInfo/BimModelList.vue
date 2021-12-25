@@ -83,7 +83,7 @@
           <a @click="handleEdit(record)">编辑</a>
 
           <a-divider type="vertical"/>
-          <a @click="handleDetail(record)">详情</a>
+          <a @click="handleInfoDetail(record)">附加属性</a>
           <a-divider type="vertical"/>
            <a @click="handle3dShow(record)">展示</a>
           <a-divider type="vertical"/>
@@ -97,7 +97,7 @@
 
       </a-table>
     </div>
-
+     <bim-model-attrs-list-modal ref="modalAttrsForm"> </bim-model-attrs-list-modal>
     <bim-model-modal ref="modalForm" @ok="modalFormOk"></bim-model-modal>
     <bim-model-show-modal  ref="modalShowForm"></bim-model-show-modal>
   </a-card>
@@ -111,11 +111,13 @@ import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 import BimModelModal from './modules/BimModelModal'
 import { filterMultiDictText } from '@/components/dict/JDictSelectUtil'
 import BimModelShowModal from '@views/bimInfo/modules/BimModelShowModal'
+import BimModelAttrsListModal from '@views/bimInfo/modules/BimModelAttrsListModal'
 
 export default {
   name: 'BimModelList',
   mixins: [JeecgListMixin, mixinDevice],
   components: {
+    BimModelAttrsListModal,
     BimModelShowModal,
     BimModelModal
   },
@@ -183,7 +185,6 @@ export default {
     },
     handle3dShow(record) //展示
     {
-      debugger
       this.$refs.modalShowForm.show(record)
     },
     batchShow()//批量展示
@@ -193,6 +194,10 @@ export default {
         ids += this.selectedRowKeys[a] + ",";
       }
       this.$refs.modalShowForm.listShow(ids)
+    },
+    handleInfoDetail(record)
+    {
+      this.$refs.modalAttrsForm.showAttrs(record)
     },
     getSuperFieldList() {
       let fieldList = []
