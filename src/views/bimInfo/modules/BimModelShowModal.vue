@@ -9,7 +9,7 @@
     :okButtonProps="{ class:{'jee-hidden': disableSubmit} }"
     @cancel="handleCancel"
     cancelText="关闭">
-    <Map height="100%" :url="configUrl" :widgetUrl="widgetUrl" @onload="onMapload"/>
+    <Map  :url="configUrl" :widgetUrl="widgetUrl" @onload="onMapload"/>
 
   </j-modal>
 </template>
@@ -74,3 +74,17 @@ import Map from '@/components/mars3d/Map.vue'
     }
   }
 </script>
+<style>
+/*#centerDiv {*/
+/*  height: 737px;*/
+/*  width: 100%;*/
+/*  margin: 0;*/
+/*  padding: 0;*/
+/*  left: 0;*/
+/*  top: 0;*/
+/*  border: none;*/
+/*  overflow: hidden;*/
+/*  position: relative;*/
+/*}*/
+
+</style>

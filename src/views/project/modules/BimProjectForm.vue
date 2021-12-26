@@ -20,7 +20,7 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="项目中心位置" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="location">
-              <j-select-plot id="test1" v-model="model.location" :multi="false"></j-select-plot>
+              <j-select-plot id="test1" v-model="model.location" plot-type="2"></j-select-plot>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">

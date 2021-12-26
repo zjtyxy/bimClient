@@ -10,6 +10,7 @@
       ref="innerDepartSelectModal"
       :modal-width="modalWidth"
       :id="id"
+      :plotType="plotType"
       :rootOpened="rootOpened"
       :depart-id="departNames"
       @ok="handleOK"
@@ -18,109 +19,116 @@
 </template>
 
 <script>
-  import JSelectDepartModal from './modal/JSelectDepartModal'
-  import PlotMapModal from "./modal/CesiumMapModal";
-  export default {
-    name: 'JSelectPlot',
-    components:{
-        PlotMapModal,
-      JSelectDepartModal
+import JSelectDepartModal from './modal/JSelectDepartModal'
+import PlotMapModal from './modal/CesiumMapModal'
+
+export default {
+  name: 'JSelectPlot',
+  components: {
+    PlotMapModal,
+    JSelectDepartModal
+  },
+  props: {
+    modalWidth: {
+      type: Number,
+      default: 500,
+      required: false
     },
-    props:{
-      modalWidth:{
-        type:Number,
-        default:500,
-        required:false
-      },
-        id:{
-        type:String,
-        default:'',
-        required:false
-      },
-      rootOpened:{
-        type:Boolean,
-        default:true,
-        required:false
-      },
-      value:{
-        type:String,
-        required:false
-      },
-      disabled:{
-        type: Boolean,
-        required: false,
-        default: false
-      },
-      // 自定义返回字段，默认返回 id
-      customReturnField: {
-        type: String,
-        default: 'id'
-      }
+    plotType: {
+      type: Number,
+      default: 1,
+      required: false
     },
-    data(){
-      return {
-        visible:false,
-        confirmLoading:false,
-        departNames:'',
-          departIds:''
-      }
+    id: {
+      type: String,
+      default: '',
+      required: false
     },
-    mounted(){
-        this.departNames = this.value
+    rootOpened: {
+      type: Boolean,
+      default: true,
+      required: false
     },
-    watch:{
-      value(val){
-          this.departNames = val
-          this.departIds=val
-      }
+    value: {
+      type: String,
+      required: false
     },
-    methods:{
-      initComp(departNames){
-        this.departNames = departNames
-          this.departIds = departNames;
-      },
-      openModal(){
-        this.$refs.innerDepartSelectModal.show(this.departNames)
-      },
-      handleOK(idstr) {
-          let value = idstr;
-          if(this.departNames!='')
-          {
-              this.departNames = JSON.stringify(idstr);
-              this.departIds = this.departNames;
-          }else
-          {
-              this.departNames ='';
-              this.departIds = ''
-          }
-          this.$emit("change", value)
-        this.$emit("input", value)
-      },
-      getDepartNames(){
-        return this.departNames
-      },
-      handleEmpty(){
-        this.handleOK('')
-      }
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
     },
-    model: {
-      prop: 'value',
-      event: 'change'
+    // 自定义返回字段，默认返回 id
+    customReturnField: {
+      type: String,
+      default: 'id'
     }
+  },
+  data() {
+    return {
+      visible: false,
+      confirmLoading: false,
+      departNames: '',
+      departIds: ''
+    }
+  },
+  mounted() {
+    this.departNames = this.value
+  },
+  watch: {
+    value(val) {
+      this.departNames = val
+      this.departIds = val
+    }
+  },
+  methods: {
+    initComp(departNames) {
+      this.departNames = departNames
+      this.departIds = departNames
+    },
+    openModal() {
+      this.$refs.innerDepartSelectModal.show(this.departNames)
+    },
+    handleOK(idstr) {
+      let value = JSON.stringify(idstr)
+      debugger
+      if (this.departNames != '') {
+        this.departNames = JSON.stringify(idstr)
+        this.departIds = this.departNames
+      } else {
+        this.departNames = ''
+        this.departIds = ''
+      }
+      this.$emit('change', value)
+      this.$emit('input', value)
+    },
+    getDepartNames() {
+      return this.departNames
+    },
+    handleEmpty() {
+      this.handleOK('')
+    }
+  },
+  model: {
+    prop: 'value',
+    event: 'change'
   }
+}
 </script>
 
 <style scoped>
-  .components-input-demo-presuffix .anticon-close-circle {
-    cursor: pointer;
-    color: #ccc;
-    transition: color 0.3s;
-    font-size: 12px;
-  }
-  .components-input-demo-presuffix .anticon-close-circle:hover {
-    color: #f5222d;
-  }
-  .components-input-demo-presuffix .anticon-close-circle:active {
-    color: #666;
-  }
+.components-input-demo-presuffix .anticon-close-circle {
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.3s;
+  font-size: 12px;
+}
+
+.components-input-demo-presuffix .anticon-close-circle:hover {
+  color: #f5222d;
+}
+
+.components-input-demo-presuffix .anticon-close-circle:active {
+  color: #666;
+}
 </style>

@@ -2,7 +2,7 @@
   <div>
 
     <PannelBox class="infoView modelView">
-      <a-form>
+      <a-form style="font-size: 12px">
         <a-form-item>
           <a-space>
             <a-checkbox @change="chkTestTerrain" v-model:checkde="isTestTerrain">深度检测</a-checkbox>
@@ -10,19 +10,19 @@
           </a-space>
         </a-form-item>
 
-        <!--      <div class="infoView-content">-->
-        <!--        <a-upload-->
-        <!--          :multiple="false"-->
-        <!--          name="file"-->
-        <!--          accept="json,geojson,kml,kmz"-->
-        <!--          :showUploadList="false"-->
-        <!--          @change="openGeoJSON"-->
-        <!--          :beforeUpload="() => false"-->
-        <!--        >-->
-        <!--          <icon-folder-upload class="icon" theme="outline" size="20" fill="#ffffff" title="打开"/>-->
-        <!--        </a-upload>-->
-        <!--        <icon-disk class="icon" theme="outline" size="20" fill="#ffffff" @click="saveGeoJSON" title="保存GeoJSON"/>-->
-        <!--      </div>-->
+              <div class="infoView-content">
+                <a-upload
+                  :multiple="false"
+                  name="file"
+                  accept="json,geojson,kml,kmz"
+                  :showUploadList="false"
+                  @change="openGeoJSON"
+                  :beforeUpload="() => false"
+                >
+                  <folder-upload class="icon" theme="outline" size="20" fill="#ffffff" title="打开"/>
+                </a-upload>
+                <disk class="icon" theme="outline" size="20" fill="#ffffff" @click="saveGeoJSON" title="保存GeoJSON"/>
+              </div>
 
         <a-form-item>
           <a-select ref="select"
@@ -42,7 +42,7 @@
       </a-form>
 
     </PannelBox>
-    <!--  <GraphicEditor ref="editor" />-->
+<!--    <GraphicEditor ref="editor" />-->
 
     <div id="centerDiv" class="mapcontainer">
       <Map :url="configUrl" :widgetUrl="widgetUrl" @onload="onMapload"/>
@@ -53,10 +53,12 @@
 <script>
 import PannelBox from '@comp/OperationPannel/PannelBox.vue'
 import Map from '@/components/mars3d/Map.vue'
+import { Disk, FolderUpload } from "@icon-park/vue"
+import GraphicEditor from "@/components/mars3d/graphic-editor/index.vue"
 
 export default {
   name: 'BaseForm',
-  components: { PannelBox, Map },
+  components: { PannelBox, Map,Disk, FolderUpload,GraphicEditor},
   data() {
     return {
       configUrl: basePathUrl + 'config/config.json',
@@ -188,17 +190,25 @@ export default {
 
 
 </script>
-<style>
+<style scoped>
+@import '~@assets/less/base.less';
 .infoView-content {
   top: 10px;
   width: 210px;
   background-color: rgba(32, 42, 68, 0.5);
 }
+.ant-form label
+{
+  font-size: 12px;
+}
 
 .icon {
   margin-left: 10px;
 }
-
+.ant-checkbox {
+  border-radius: 3px;
+  background-color: #fff;
+}
 .modelView {
   right: 10px;
   width: 240px;
@@ -225,5 +235,7 @@ export default {
   width: 100px;
   height: 90px;
   border: 1.5px solid white;
+
 }
+
 </style>

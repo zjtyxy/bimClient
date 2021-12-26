@@ -4,6 +4,9 @@ import { isURL } from '@/utils/validate'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import onlineCommons from '@jeecg/antd-online-mini'
 
+export function getQueryString(parameter) {
+  return new URL(window.location.href).searchParams.get(parameter)
+}
 export function timeFix() {
   const time = new Date()
   const hour = time.getHours()

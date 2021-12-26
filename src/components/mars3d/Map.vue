@@ -63,11 +63,13 @@ export default {
       var map = new mars3d.Map(`mars3d-container${this.mapKey}`, mapOptions)
       this[`map${this.mapKey}`] = map
       console.log('>>>>> 地图创建成功 >>>>', map)
+
+      // 抛出事件
+      this.$emit('onload', map)
+
       mars3d.Resource.fetchJson({ url: this.widgetUrl }).then((data) => {
         this.initStaticWidget(map, data)
       })
-      // 抛出事件
-      this.$emit('onload', map)
     },
     initStaticWidget(map, widget) {
       mars3d.widget.init(map, widget, window.basePathUrl || '/') // basePathUrl定义在public/index.html

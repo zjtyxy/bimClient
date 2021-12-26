@@ -210,7 +210,7 @@ export default {
 <style>
 .mapcontainer {
   position: relative;
-  height: 950px;
+  height: 766px;
   overflow: hidden;
 }
 </style>
