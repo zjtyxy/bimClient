@@ -1,0 +1,864 @@
+{
+  "点及文字": [
+    {
+      "name": "文字",
+      "image": "{plotPath}/img/label.jpg",
+      "type": "label",
+      "iconClass": "fa fa-text-width"
+    },
+    {
+      "name": "点(带注记)",
+      "image": "{plotPath}/img/pointlbl.jpg",
+      "type": "point",
+      "style": {
+        "color": "#ff0000",
+        "label": {
+          "text": "注记",
+          "font_size": 20,
+          "color": "#ffffff",
+          "outline": true,
+          "outlineColor": "#000000",
+          "pixelOffsetX": 0,
+          "pixelOffsetY": -13
+        }
+      }
+    },
+    {
+      "name": "图标点(带注记)",
+      "image": "{plotPath}/img/marklbl.jpg",
+      "type": "billboard",
+      "style": {
+        "image": "img/marker/mark4.png",
+        "label": {
+          "text": "注记",
+          "font_size": 25,
+          "color": "#ffffff",
+          "outline": true,
+          "pixelOffsetX": 0,
+          "pixelOffsetY": -50
+        }
+      }
+    },
+
+    {
+      "name": "图标点1",
+      "type": "billboard",
+      "style": {
+        "image": "img/marker/mark1.png"
+      }
+    },
+    {
+      "name": "图标点2",
+      "type": "billboard",
+      "style": {
+        "image": "img/marker/mark2.png"
+      }
+    },
+    {
+      "name": "图标点3",
+      "type": "billboard",
+      "style": {
+        "image": "img/marker/mark3.png"
+      }
+    },
+    {
+      "name": "点",
+      "image": "{plotPath}/img/point.jpg",
+      "type": "point"
+    }
+  ],
+  "字体点": [
+    { "name": "fa字体flag", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-flag" } },
+    { "name": "fa字体flag-checkered", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-flag-checkered" } },
+    { "name": "fa字体flag-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-flag-o" } },
+    { "name": "fa字体crosshairs", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-crosshairs" } },
+    { "name": "fa字体map-marker", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-map-marker" } },
+    { "name": "fa字体map-pin", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-map-pin" } },
+    { "name": "fa字体map-signs", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-map-signs" } },
+    { "name": "fa字体podcast", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-podcast" } },
+    { "name": "fa字体tree", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-tree" } },
+    { "name": "fa字体bicycle", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-bicycle" } },
+    { "name": "fa字体motorcycle", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-motorcycle" } },
+    { "name": "fa字体truck", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-truck" } },
+    { "name": "fa字体ambulance", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-ambulance" } },
+    { "name": "fa字体automobile", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-automobile" } },
+    { "name": "fa字体bus", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-bus" } },
+    { "name": "fa字体cab", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-cab" } },
+    { "name": "fa字体car", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-car" } },
+    { "name": "fa字体taxi", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-taxi" } },
+    { "name": "fa字体train", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-train" } },
+    { "name": "fa字体subway", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-subway" } },
+    { "name": "fa字体plane", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-plane" } },
+    { "name": "fa字体rocket", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-rocket" } },
+    { "name": "fa字体fighter-jet", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-fighter-jet" } },
+    { "name": "fa字体paper-plane", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-paper-plane" } },
+    { "name": "fa字体paper-plane-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-paper-plane-o" } },
+    { "name": "fa字体space-shuttle", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-space-shuttle" } },
+    { "name": "fa字体ship", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-ship" } },
+    { "name": "fa字体fire-extinguisher", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-fire-extinguisher" } },
+    { "name": "fa字体anchor", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-anchor" } },
+    { "name": "fa字体asterisk", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-asterisk" } },
+    { "name": "fa字体balance-scale", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-balance-scale" } },
+    { "name": "fa字体fax", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-fax" } },
+    { "name": "fa字体feed", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-feed" } },
+    { "name": "fa字体female", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-female" } },
+    { "name": "fa字体film", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-film" } },
+    { "name": "fa字体filter", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-filter" } },
+    { "name": "fa字体flash", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-flash" } },
+    { "name": "fa字体flask", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-flask" } },
+    { "name": "fa字体frown-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-frown-o" } },
+    { "name": "fa字体futbol-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-futbol-o" } },
+    { "name": "fa字体gamepad", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-gamepad" } },
+    { "name": "fa字体gavel", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-gavel" } },
+    { "name": "fa字体gear", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-gear" } },
+    { "name": "fa字体gears", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-gears" } },
+    { "name": "fa字体gift", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-gift" } },
+    { "name": "fa字体glass", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-glass" } },
+    { "name": "fa字体globe", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-globe" } },
+    { "name": "fa字体graduation-cap", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-graduation-cap" } },
+    { "name": "fa字体group", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-group" } },
+    { "name": "fa字体handshake-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-handshake-o" } },
+    { "name": "fa字体hashtag", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-hashtag" } },
+    { "name": "fa字体hdd-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-hdd-o" } },
+    { "name": "fa字体headphones", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-headphones" } },
+    { "name": "fa字体history", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-history" } },
+    { "name": "fa字体hotel", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-hotel" } },
+    { "name": "fa字体hourglass", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-hourglass" } },
+    { "name": "fa字体hourglass-end", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-hourglass-end" } },
+    { "name": "fa字体hourglass-half", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-hourglass-half" } },
+    { "name": "fa字体hourglass-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-hourglass-o" } },
+    { "name": "fa字体hourglass-start", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-hourglass-start" } },
+    { "name": "fa字体lock", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-lock" } },
+    { "name": "fa字体magic", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-magic" } },
+    { "name": "fa字体magnet", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-magnet" } },
+    { "name": "fa字体male", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-male" } },
+    { "name": "fa字体map", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-map" } },
+    { "name": "fa字体map-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-map-o" } },
+    { "name": "fa字体meh-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-meh-o" } },
+    { "name": "fa字体phone", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-phone" } },
+    { "name": "fa字体phone-square", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-phone-square" } },
+    { "name": "fa字体photo", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-photo" } },
+    { "name": "fa字体picture-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-picture-o" } },
+    { "name": "fa字体plug", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-plug" } },
+    { "name": "fa字体plus", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-plus" } },
+    { "name": "fa字体plus-circle", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-plus-circle" } },
+    { "name": "fa字体plus-square-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-plus-square-o" } },
+    { "name": "fa字体power-off", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-power-off" } },
+    { "name": "fa字体print", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-print" } },
+    { "name": "fa字体qrcode", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-qrcode" } },
+    { "name": "fa字体s15", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-s15" } },
+    { "name": "fa字体search", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-search" } },
+    { "name": "fa字体search-minus", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-search-minus" } },
+    { "name": "fa字体search-plus", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-search-plus" } },
+    { "name": "fa字体server", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-server" } },
+    { "name": "fa字体share", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-share" } },
+    { "name": "fa字体share-alt", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-share-alt" } },
+    { "name": "fa字体share-alt-square", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-share-alt-square" } },
+    { "name": "fa字体share-square", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-share-square" } },
+    { "name": "fa字体share-square-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-share-square-o" } },
+    { "name": "fa字体shield", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-shield" } },
+    { "name": "fa字体shopping-bag", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-shopping-bag" } },
+    { "name": "fa字体shopping-basket", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-shopping-basket" } },
+    { "name": "fa字体shopping-cart", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-shopping-cart" } },
+    { "name": "fa字体shower", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-shower" } },
+    { "name": "fa字体sign-in", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-sign-in" } },
+    { "name": "fa字体sign-out", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-sign-out" } },
+    { "name": "fa字体signal", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-signal" } },
+    { "name": "fa字体snowflake-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-snowflake-o" } },
+    { "name": "fa字体soccer-ball-o", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-soccer-ball-o" } },
+    { "name": "fa字体street-view", "type": "fontBillboard", "style": { "color": "#fafa00", "iconClass": "fa fa-street-view" } }
+  ],
+  "小模型": [
+    {
+      "name": "小汽车",
+      "image": "{gltfServerUrl}/mars/img/qiche.jpg",
+      "type": "model",
+      "style": {
+        "scale": 0.1,
+        "url": "{gltfServerUrl}/mars/qiche.gltf"
+      }
+    },
+    {
+      "name": "警车",
+      "image": "{gltfServerUrl}/mars/img/jingche.jpg",
+      "type": "model",
+      "style": {
+        "scale": 3,
+        "url": "{gltfServerUrl}/mars/jingche/jingche.gltf"
+      }
+    },
+    {
+      "name": "消防车",
+      "image": "{gltfServerUrl}/mars/img/xiaofangche.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/firedrill/xiaofangche.gltf"
+      }
+    },
+    {
+      "name": "起重车",
+      "image": "{gltfServerUrl}/mars/img/qzcar.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/qzcar/GKZY_anim.gltf"
+      }
+    },
+    {
+      "name": "土方车",
+      "image": "{gltfServerUrl}/mars/img/tufangche.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/car/tufangche.glb"
+      }
+    },
+    {
+      "name": "挖掘机",
+      "image": "{gltfServerUrl}/mars/img/wajueji.jpg",
+      "type": "model",
+      "style": {
+        "scale": 3,
+        "url": "{gltfServerUrl}/mars/car/wajueji.glb"
+      }
+    },
+
+    {
+      "name": "MQ-9无人机",
+      "image": "{gltfServerUrl}/mars/img/MQ-9-Predator.jpg",
+      "type": "model",
+      "style": {
+        "scale": 1,
+        "url": "{gltfServerUrl}/mars/MQ-9-Predator.glb"
+      }
+    },
+    {
+      "name": "战机",
+      "image": "{gltfServerUrl}/mars/img/zhanji.jpg",
+      "type": "model",
+      "style": {
+        "scale": 0.1,
+        "url": "{gltfServerUrl}/mars/zhanji.glb"
+      }
+    },
+    {
+      "name": "飞机",
+      "image": "{gltfServerUrl}/mars/img/feiji.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/feiji.glb"
+      }
+    },
+
+    {
+      "name": "渔船",
+      "image": "{gltfServerUrl}/mars/img/ship-09.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/ship/ship09.glb",
+        "scale": 1
+      }
+    },
+    {
+      "name": "煤炭船",
+      "image": "{gltfServerUrl}/mars/img/ship-05.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/ship/ship05.glb",
+        "scale": 1
+      }
+    },
+    {
+      "name": "拖轮",
+      "image": "{gltfServerUrl}/mars/img/ship-04.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/ship/ship04.glb",
+        "scale": 1
+      }
+    },
+
+    {
+      "name": "散货船",
+      "image": "{gltfServerUrl}/mars/img/ship-01.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/ship/ship01.glb",
+        "scale": 1
+      }
+    },
+    {
+      "name": "集装箱船",
+      "image": "{gltfServerUrl}/mars/img/ship-03.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/ship/ship03.glb",
+        "scale": 1
+      }
+    },
+    {
+      "name": "化工品船",
+      "image": "{gltfServerUrl}/mars/img/ship-08.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/ship/ship08.glb",
+        "scale": 1
+      }
+    },
+
+    {
+      "name": "行人",
+      "image": "{gltfServerUrl}/mars/img/man.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/man/walk.gltf"
+      }
+    },
+    {
+      "name": "巡逻人员",
+      "image": "{gltfServerUrl}/mars/img/gongren.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/man/gongren.glb"
+      }
+    },
+    {
+      "name": "消防员",
+      "image": "{gltfServerUrl}/mars/img/xiaofangyuan.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/firedrill/xiaofangyuan.glb"
+      }
+    },
+
+    {
+      "name": "风力发电机",
+      "image": "{gltfServerUrl}/mars/img/fengche.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/fengche.gltf"
+      }
+    },
+    {
+      "name": "电线塔",
+      "image": "{gltfServerUrl}/mars/img/tower.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/tower/tower.glb"
+      }
+    },
+    {
+      "name": "电线架子",
+      "image": "{gltfServerUrl}/mars/img/railway-jiazi.jpg",
+      "type": "model",
+      "style": {
+        "url": "{gltfServerUrl}/mars/railway/jiazi.glb",
+        "scale": 0.001
+      }
+    }
+  ],
+  "二维平面类": [
+    {
+      "name": "线",
+      "image": "{plotPath}/img/polyline.jpg",
+      "type": "polyline",
+      "style": {
+        "clampToGround": false
+      }
+    },
+    {
+      "name": "闭合线",
+      "image": "{plotPath}/img/polyline.jpg",
+      "type": "polyline",
+      "style": {
+        "closure": true,
+        "clampToGround": false
+      }
+    },
+    {
+      "name": "贴地线",
+      "image": "{plotPath}/img/polyline_clampToGround.jpg",
+      "type": "polyline",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "流动线",
+      "image": "{plotPath}/img/polyline_flow.jpg",
+      "type": "polyline",
+      "style": {
+        "clampToGround": false,
+        "materialType": "LineFlow",
+        "image": "img/textures/lineClr.png",
+        "color": "#33e8df"
+      }
+    },
+    {
+      "name": "动态线",
+      "image": "{plotPath}/img/polyline_flow2.jpg",
+      "type": "polyline",
+      "style": {
+        "clampToGround": false,
+        "materialType": "LineFlow",
+        "image": "img/textures/LinkPulse.png",
+        "color": "#33e8df",
+        "width": 8
+      }
+    },
+    {
+      "name": "曲线",
+      "image": "{plotPath}/img/curve.jpg",
+      "type": "curve",
+      "edittype": "polyline",
+      "style": {
+        "clampToGround": false
+      }
+    },
+    {
+      "name": "贴地曲线",
+      "image": "{plotPath}/img/curve_clampToGround.jpg",
+      "type": "curve",
+      "edittype": "polyline",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "走廊",
+      "image": "{plotPath}/img/corridor.jpg",
+      "type": "corridor"
+    },
+    {
+      "name": "贴地走廊",
+      "image": "{plotPath}/img/corridor_clampToGround.jpg",
+      "type": "corridor",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "面",
+      "image": "{plotPath}/img/polygon.jpg",
+      "type": "polygon"
+    },
+    {
+      "name": "贴地面",
+      "image": "{plotPath}/img/polygon_clampToGround.jpg",
+      "type": "polygon",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "矩形",
+      "image": "{plotPath}/img/rectangle.jpg",
+      "type": "rectangle"
+    },
+    {
+      "name": "贴地矩形",
+      "image": "{plotPath}/img/rectangle_clampToGround.jpg",
+      "type": "rectangle",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "平面",
+      "image": "{plotPath}/img/plane.jpg",
+      "type": "plane"
+    },
+    {
+      "name": "等腰三角形",
+      "image": "{plotPath}/img/triangleDY.jpg",
+      "type": "triangleDY",
+      "edittype": "polygon",
+      "style": {
+        "color": "#2ef7e6"
+      },
+      "hide": true
+    },
+    {
+      "name": "正三角形",
+      "image": "{plotPath}/img/regular3.jpg",
+      "type": "regular",
+      "edittype": "polygon",
+      "style": {
+        "border": 3,
+        "color": "#2ef7e6"
+      }
+    },
+    {
+      "name": "正方形",
+      "image": "{plotPath}/img/regular4.jpg",
+      "type": "regular",
+      "edittype": "polygon",
+      "style": {
+        "border": 4,
+        "color": "#2ef7e6"
+      }
+    },
+    {
+      "name": "正五边形",
+      "image": "{plotPath}/img/regular5.jpg",
+      "type": "regular",
+      "edittype": "polygon",
+      "style": {
+        "border": 5,
+        "color": "#2ef7e6"
+      }
+    },
+    {
+      "name": "圆",
+      "image": "{plotPath}/img/circle.jpg",
+      "type": "circle"
+    },
+    {
+      "name": "贴地圆",
+      "image": "{plotPath}/img/circle_clampToGround.jpg",
+      "type": "circle",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "动态圆",
+      "image": "{plotPath}/img/circle_animation.jpg",
+      "type": "circle",
+      "style": {
+        "materialType": "CircleWave",
+        "count": 2,
+        "outline": false
+      }
+    },
+    {
+      "name": "椭圆",
+      "image": "{plotPath}/img/ellipse.jpg",
+      "type": "ellipse"
+    },
+    {
+      "name": "贴地椭圆",
+      "image": "{plotPath}/img/ellipse_clampToGround.jpg",
+      "type": "ellipse",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "扇形",
+      "image": "{plotPath}/img/sector.jpg",
+      "type": "sector",
+      "edittype": "polygon",
+      "style": {
+        "color": "#2ef7e6"
+      }
+    },
+    {
+      "name": "弓形",
+      "image": "{plotPath}/img/lune.jpg",
+      "type": "lune",
+      "edittype": "polygon",
+      "style": {
+        "color": "#2ef7e6"
+      }
+    },
+    {
+      "name": "贴地矩形图片",
+      "type": "rectangle",
+      "edittype": "rectangle",
+      "style": {
+        "materialType": "Image",
+        "image": "img/tietu/gugong.jpg",
+        "repeat": 1,
+        "opacity": 1.0
+      }
+    },
+    {
+      "name": "圆形图片",
+      "type": "circle",
+      "style": {
+        "materialType": "Image",
+        "image": "img/tietu/leida.jpg",
+        "outline": false,
+        "repeat": 1,
+        "opacity": 0.8
+      }
+    },
+    {
+      "name": "多边形图片",
+      "type": "polygon",
+      "style": {
+        "materialType": "Image",
+        "image": "img/textures/excavate_bottom_min.jpg",
+        "repeat": 1,
+        "opacity": 1.0
+      }
+    }
+  ],
+  "三维立体类": [
+    {
+      "name": "墙体",
+      "image": "{plotPath}/img/wall.jpg",
+      "type": "wall"
+    },
+
+    {
+      "name": "闭合墙体",
+      "image": "{plotPath}/img/wall.jpg",
+      "type": "wall",
+      "style": {
+        "closure": true
+      }
+    },
+    {
+      "name": "动态墙体",
+      "image": "{plotPath}/img/wall_fence.jpg",
+      "type": "wall",
+      "style": {
+        "materialType": "LineFlow",
+        "image": "img/textures/fence.png",
+        "axisY": true,
+        "color": "#36ff5b",
+        "outline": false
+      }
+    },
+    {
+      "name": "动态箭头墙体",
+      "image": "{plotPath}/img/wall_arrow.jpg",
+      "type": "wall",
+      "style": {
+        "materialType": "LineFlow",
+        "image": "img/textures/arrow.png",
+        "axisY": false,
+        "repeat_x": 10,
+        "color": "#36ff5b",
+        "outline": false
+      }
+    },
+
+    {
+      "name": "竖立图片(墙)",
+      "type": "wall",
+      "image": "{plotPath}/img/wall_tanhao.jpg",
+      "maxPointNum": 2,
+      "style": {
+        "materialType": "LineFlow",
+        "image": "img/textures/fence.png",
+        "axisY": true,
+        "color": "#ff0000",
+        "image2": "img/textures/tanhao.png",
+        "color2": "#FFFF00",
+        "outline": false
+      }
+    },
+
+    {
+      "name": "拉伸走廊",
+      "image": "{plotPath}/img/extrudedCorridor.jpg",
+      "type": "corridor",
+      "style": {
+        "diffHeight": 100,
+        "color": "#00ff00"
+      }
+    },
+    {
+      "name": "管道",
+      "image": "{plotPath}/img/polylineVolume.jpg",
+      "type": "polylineVolume",
+      "hide": true
+    },
+    {
+      "name": "多边立体",
+      "image": "{plotPath}/img/extrudedPolygon.jpg",
+      "type": "polygon",
+      "style": {
+        "diffHeight": 100,
+        "color": "#00ff00"
+      }
+    },
+    {
+      "name": "立方体",
+      "image": "{plotPath}/img/extrudedRectangle.jpg",
+      "type": "rectangle",
+      "style": {
+        "diffHeight": 100,
+        "color": "#00ff00"
+      }
+    },
+
+    {
+      "name": "立体正三角形",
+      "image": "{plotPath}/img/regular3d.jpg",
+      "type": "regular",
+      "edittype": "polygon",
+      "style": {
+        "border": 3,
+        "diffHeight": 100,
+        "color": "#00ff00"
+      }
+    },
+    {
+      "name": "立体正方形",
+      "image": "{plotPath}/img/regular4d.jpg",
+      "type": "regular",
+      "edittype": "polygon",
+      "style": {
+        "border": 4,
+        "diffHeight": 100,
+        "color": "#00ff00"
+      }
+    },
+    {
+      "name": "立体正五边形",
+      "image": "{plotPath}/img/regular5d.jpg",
+      "type": "regular",
+      "edittype": "polygon",
+      "style": {
+        "border": 5,
+        "diffHeight": 100,
+        "color": "#00ff00"
+      }
+    },
+
+    {
+      "name": "盒子",
+      "image": "{plotPath}/img/box.jpg",
+      "type": "box"
+    },
+
+    {
+      "name": "圆柱体",
+      "image": "{plotPath}/img/extrudedCircle.jpg",
+      "type": "circle",
+      "style": {
+        "diffHeight": 100,
+        "color": "#00ff00"
+      }
+    },
+    {
+      "name": "圆锥体",
+      "image": "{plotPath}/img/cylinder.jpg",
+      "type": "cylinder"
+    },
+
+    {
+      "name": "椭圆柱体",
+      "image": "{plotPath}/img/extrudedEellipse.jpg",
+      "type": "ellipse",
+      "style": {
+        "diffHeight": 100,
+        "color": "#00ff00"
+      }
+    },
+    {
+      "name": "球体",
+      "image": "{plotPath}/img/ellipsoid.jpg",
+      "type": "ellipsoid"
+    },
+    {
+      "name": "半球体",
+      "image": "{plotPath}/img/ellipsoid.jpg",
+      "type": "ellipsoid",
+      "style": {
+        "maximumConeDegree": 90
+      }
+    }
+  ],
+  "军事标绘": [
+    {
+      "name": "粗直箭头",
+      "image": "{plotPath}/img/straightArrow.jpg",
+      "type": "straightArrow",
+      "edittype": "polygon",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "粗单尖直箭头",
+      "image": "{plotPath}/img/fineArrow.jpg",
+      "type": "fineArrow",
+      "edittype": "polygon",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "燕尾直箭头",
+      "image": "{plotPath}/img/fineArrowYW.jpg",
+      "type": "fineArrowYW",
+      "edittype": "polygon",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "攻击箭头",
+      "image": "{plotPath}/img/attackArrow.jpg",
+      "type": "attackArrow",
+      "edittype": "polygon",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "平尾攻击箭头",
+      "image": "{plotPath}/img/attackArrowPW.jpg",
+      "type": "attackArrowPW",
+      "edittype": "polygon",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "燕尾攻击箭头",
+      "image": "{plotPath}/img/attackArrowYW.jpg",
+      "type": "attackArrowYW",
+      "edittype": "polygon",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "钳击箭头",
+      "image": "{plotPath}/img/doubleArrow.jpg",
+      "type": "doubleArrow",
+      "edittype": "polygon",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "闭合曲面",
+      "image": "{plotPath}/img/closeVurve.jpg",
+      "type": "closeVurve",
+      "edittype": "polygon",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    },
+    {
+      "name": "集结地",
+      "image": "{plotPath}/img/gatheringPlace.jpg",
+      "type": "gatheringPlace",
+      "edittype": "polygon",
+      "style": {
+        "clampToGround": true,
+        "color": "#ffff00"
+      }
+    }
+  ]
+}

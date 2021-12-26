@@ -17,21 +17,8 @@
   },
   "openAtStart": [
     {
-      "name": "POI查询",
-      "uri": "/widgets/queryGaodePOI/widget.js",
-      "css": {
-        "top": "70px",
-        "left": "20px"
-      }
-    },
-    {
-      "name": "右上角工具栏",
-      "uri": "/widgets/toolBarRight/widget.js",
-      "css": {
-        "top": "70px",
-        "left": "auto",
-        "right": "20px"
-      }
+      "name": "工具按钮",
+      "uri": "/widgets/toolbtn-widget/widget.js"
     },
     {
       "name": "放大缩小按钮",
