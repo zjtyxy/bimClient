@@ -28,7 +28,7 @@
         <div class="header-index-left" :style="topMenuStyle.headerIndexLeft">
           <logo class="top-nav-header" :show-title="device !== 'mobile'" :style="topMenuStyle.topNavHeader"/>
           <div v-if="device !== 'mobile'" :style="topMenuStyle.topSmenuStyle">
-            <s-menu
+            <s-menu style="color: white;"
               mode="horizontal"
               :menu="menus"
               :theme="theme"
@@ -180,8 +180,10 @@ export default {
   .top-nav-header-index {
 
     .header-index-wide {
-      margin-left: 10px;
-
+      margin-left: 0px;
+      font-size: 18px;
+      color: white;
+      background-color: #3582DB;
       .ant-menu.ant-menu-horizontal {
         height: @height;
         line-height: @height;
@@ -217,13 +219,30 @@ export default {
       background: rgba(0, 0, 0, 0.05);
     }
   }
+
 }
 
 .ant-layout-header {
   height: @height;
   line-height: @height;
 }
-
+.ant-menu-submenu-title {
+  position: relative;
+  display: block;
+  font-size: 16px;
+  margin: 0;
+  padding: 0 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), border-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), padding 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.header-index-left /deep/ .ant-menu-item-selected{
+  color: #0e2b0e;
+  border-bottom: 2px solid #1890FF;
+}
+.header-index-left /deep/ .ant-menu-submenu-selected{
+  color: #0e2b0e;
+}
 /* update_end author:scott date:20190220 for: 缩小首页布局顶部的高度*/
 
 </style>

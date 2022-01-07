@@ -1,41 +1,47 @@
 <template>
-  <div>
-    <index-chart v-if="indexStyle==1"></index-chart>
-    <index-bdc v-if="indexStyle==2"></index-bdc>
-    <index-task v-if="indexStyle==3"></index-task>
-    <div style="width: 100%;text-align: right;margin-top: 20px">
-      请选择首页样式：
-      <a-radio-group v-model="indexStyle">
-        <a-radio :value="1">统计图表</a-radio>
-        <a-radio :value="2">统计图表2</a-radio>
-        <a-radio :value="3">任务表格</a-radio>
-      </a-radio-group>
-    </div>
-  </div>
+
+  <iframe  :id="id" :src="url" frameborder="0" width="100%" height="866px" scrolling="auto" style="background-color: #fff;"></iframe>
+
 </template>
 
 <script>
-  import IndexChart from './IndexChart'
-  import IndexTask from "./IndexTask"
-  import IndexBdc from './IndexBdc'
+import PageLayout from '@/components/page/PageLayout'
+import RouteView from '@/components/layouts/RouteView'
 
-  export default {
-    name: "Analysis",
-    components: {
-      IndexChart,
-      IndexTask,
-      IndexBdc
-    },
-    data() {
-      return {
-        indexStyle:1
+export default {
+  name: "IframePageContent",
+  data () {
+    return {
+      url: "",
+      id:""
+    }
+  },
+  created () {
+    this.goUrl()
+  },
+  updated () {
+    this.goUrl()
+  },
+  watch: {
+    $route(to, from) {
+      this.goUrl();
+    }
+  },
+  methods: {
+    goUrl () {
+      let url = `${window._CONFIG['domianURL']}/test/bigScreen/templat/index2`
+      let id = this.$route.path
+      this.id = id
+      //url = "http://www.baidu.com"
+      console.log("------url------"+url)
+      if (url !== null && url !== undefined) {
+        this.url = url;
+        //window.open(this.url);
       }
-    },
-    created() {
-
-    },
-    methods: {
-
     }
   }
+}
 </script>
+
+<style>
+</style>
