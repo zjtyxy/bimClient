@@ -56,15 +56,28 @@ export default {
   },
   created() {
     //备份model原始值
+    window.isVue=true
     this.modelDefault = JSON.parse(JSON.stringify(this.model))
   },
   methods: {
     onMapload(map) {
-      this.loadTileset(map, '地铁通道', 'http://127.0.0.1/BIM/totle/tileset.json', JSON.stringify({
-        lng: 118.699194,
-        lat: 31.978852,
-        alt: 0.6
-      }), 558)
+      var that = this;
+      // this.loadTileset(map, '地铁通道', 'http://127.0.0.1/BIM/totle/tileset.json', JSON.stringify({
+      //   lng: 118.699194,
+      //   lat: 31.978852,
+      //   alt: 0.6
+      // }), 558)
+
+      mars3d.widget.on('saveGeoJson', function (event) {
+        if(event){
+          that.saveGeoJson(event.features,event.layer)
+        }
+
+      })
+    },
+    saveGeoJson(json,layer)
+    {
+      console.log(json,layer)
     },
     edit(record) {
       this.model = Object.assign({}, record)
