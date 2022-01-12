@@ -37,7 +37,7 @@
         '<li class="widget-btn" data-widget="/widgets/bookmark/widget.js"><a href="javascript:void(0)"><i class="fa fa-tags"></i>视角书签</a></li>' +
         '<li class="widget-btn" data-widget="/widgets/mapCompare/widget.js"><a href="javascript:void(0)"><i class="fa fa-window-restore"></i>分屏对比</a></li>' +
         '<li class="widget-btn" data-widget="/widgets/mapSwipe/widget.js"><a href="javascript:void(0)"><i class="fa fa-columns"></i>卷帘对比</a></li>' +
-        '<li class="widget-btn" data-widget="/widgets/newplot/widget.js"><a href="javascript:void(0)"><i class="fa fa-object-group"></i>图上标绘</a></li>' +
+        '<li class="widget-btn" data-widget="/widgets/plot/widget.js"><a href="javascript:void(0)"><i class="fa fa-object-group"></i>图上标绘</a></li>' +
         '<li class="widget-btn" data-widget="/widgets/czmlEditor/widget.js"><a href="javascript:void(0)"><i class="fa fa-object-group"></i>CZML编辑</a></li>' +
         '<li class="widget-btn" data-widget="/widgets/roamLine/widget.js"><a href="javascript:void(0)"><i class="fa fa-send-o"></i>飞行漫游</a></li>' +
         '<li class="widget-btn" data-widget="/widgets/print/widget.js"><a href="javascript:void(0)"><i class="fa fa-print"></i>地图打印</a></li>' +
