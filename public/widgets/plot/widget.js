@@ -84,7 +84,7 @@
     }
 
     updateTemplateValues(_0x5a2a0a) {
-      return this.map.options['templateValues'] ? mars3d.Util['template'](_0x5a2a0a, this.map.options.templateValues) : _0x5a2a0a
+      return this.map.options.templateValues ? mars3d.Util.template(_0x5a2a0a, this.map.options.templateValues) : _0x5a2a0a
     }
 
     hasEdit(_0x2a1822) {
@@ -166,7 +166,7 @@
     }
 
     downloadJson(_0x38c875, _0x190051) {
-      var _0x481c2d = this.getGeoJson(_0x190051)
+      var _0x481c2d = this.getGeoJson(_0x190051);
       (null == _0x481c2d) || _0x481c2d.features && 0 == _0x481c2d.features.length ? haoutil['msg']('当前未标绘任何数据！') : (_0x190051 = new Date().format('MMddHHmmss'),
         haoutil['file'].downloadFile(((_0x38c875 + '_') + _0x190051) + '.json', JSON.stringify(_0x481c2d)))
     }
