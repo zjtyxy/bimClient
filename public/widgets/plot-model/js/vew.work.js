@@ -84,16 +84,16 @@ var treeObj, lastRightClickTreeId, lastRightClickTreeNode, plotFile = {
     var that = this, selPlotList = $('#sel_plot_list')
     $.getJSON('http://localhost:8080/jeecg-boot/base/bimGtlfModel/listMap', function (res) {
       var curIndex, key, htmlstr = '', count = 0
-      var result =res.result;
+      var result = res.result
       for (key in result) {
         htmlstr += '<option value="' + key + '">' + key + '(' + result[key].length + ')</option>',
-        curIndex = key, count++
+          curIndex = key, count++
       }
       var _0x4d3be4 = haoutil.storage.get('plot_model_list');
       (curIndex = _0x4d3be4 ? _0x4d3be4 : curIndex) && result[curIndex] && (that.showPlotList(result[curIndex]),
         selPlotList['attr']('data-value', curIndex)), count > 1 ? (selPlotList.html(htmlstr), selPlotList.select(),
         selPlotList.change(function () {
-          var sll = $(this).attr('data-value');
+          var sll = $(this).attr('data-value')
           that.showPlotList(result[sll]), haoutil.storage.add('plot_model_list', sll)
         })) : (selPlotList.hide(), $('.mp_mark').css({ 'margin-top': '10px' }))
     })
@@ -102,7 +102,7 @@ var treeObj, lastRightClickTreeId, lastRightClickTreeNode, plotFile = {
     var htmlstr = ''
     for (var i = 0; i < plotList.length; i++) {
       var mstyle, mimage, mclass, mColor, plotModel = plotList[i]
-      plotModel.url && (plotModel.style={}, plotModel.style.url =  plotModel.url);
+      plotModel.url && (plotModel.style = {}, plotModel.style.url = plotModel.url)
 
       if (!plotModel.hide) {
         plotModel.style && plotModel.style.url && (plotModel.style.url = thisWidget.updateTemplateValues(plotModel.style.url));
@@ -138,7 +138,7 @@ var treeObj, lastRightClickTreeId, lastRightClickTreeNode, plotFile = {
     delete _0x301bed['image']
     var _0x35bc94 = thisWidget.getDefStyle(_0x301bed['edittype'] || _0x301bed.type)
     if (_0x35bc94) for (var _0x23f86c in (_0x301bed.style = _0x301bed.style || {}, _0x35bc94)) (null == _0x301bed.style[_0x23f86c]) && (_0x301bed.style[_0x23f86c] = _0x35bc94[_0x23f86c])
-    _0x301bed.attr = { 'id': '', 'name': '', 'remark': '' }, thisWidget.startDraw(_0x301bed)
+    _0x301bed.attr = { 'id': '', 'name': '', 'remark11': '' }, thisWidget.startDraw(_0x301bed)
 
   }, 'plotEnd': function () {
     this['_lastLi'] && this._lastLi.removeClass('markon')
@@ -150,7 +150,7 @@ var treeObj, lastRightClickTreeId, lastRightClickTreeNode, plotFile = {
     }), $('#btn_plot_delAllGroup').click(function (_0x4e81f0) {
       thisWidget['deleteEmptyLayer']()
     }), bindRightMenuEvnet(), thisWidget.showLayerTree()
-  }, 'loadData': function (_0x29e006) {
+  }, 'loadData': function (layerlist) {
     var _0x4cc9a7 = {
       'check': { 'enable': !0 },
       'edit': { 'drag': { 'isMove': !0 }, 'showRemoveBtn': !1, 'showRenameBtn': !1, 'enable': !0 },
@@ -166,26 +166,26 @@ var treeObj, lastRightClickTreeId, lastRightClickTreeNode, plotFile = {
       }
     }
     objFeature = {}
-    var _0xadfda5 = [];
-    for (var i = 0; i < _0x29e006.length; i++) {
-      var _0x1f57f0 = _0x29e006[i], graphics = _0x1f57f0.getGraphics(),
-        _0x10657d = _0x1f57f0.name + '(' + graphics.length + '个)'
-      _0x1f57f0.isActivate && (_0x10657d += '-激活')
-      var _0x269712 = treeObj && treeObj.getNodeByParam('id', _0x1f57f0.uuid), _0x20d299 = {
-        'id': _0x1f57f0.uuid,
-        'pId': _0x1f57f0.pid,
-        'name': _0x10657d,
+    var _0xadfda5 = []
+    for (var i = 0; i < layerlist.length; i++) {
+      var layer = layerlist[i], graphics = layer.getGraphics(),
+        layerName = layer.name + '(' + graphics.length + '个)'
+      layer.isActivate && (layerName += '-激活')
+      treeObj && treeObj.getNodeByParam('id', layer.uuid), _0x20d299 = {
+        'id': layer.uuid,
+        'pId': layer.pid,
+        'name': layerName,
         'icon': 'img/tree/folder.png',
         'isGroup': !0,
-        'checked': _0x1f57f0.show,
-        'open': _0x269712 && _0x269712.open
+        'checked': layer.show,
+        'open': treeObj && treeObj.open
       }
-      _0xadfda5.push(_0x20d299), objFeature[_0x20d299['id']] = _0x1f57f0
-      for (var i = 0, _0x33374c = graphics.length; (i < _0x33374c); i++) {
-        var _0x14c3ed = graphics[i], _0x50e34a = {
+      _0xadfda5.push(_0x20d299), objFeature[_0x20d299['id']] = layer
+      for (var j = 0; j < graphics.length; j++) {
+        var _0x14c3ed = graphics[j], _0x50e34a = {
           'id': _0x14c3ed.uuid,
           'pId': _0x20d299['id'],
-          'name': ((null == (_0x50e34a = _0x14c3ed['attr'])) || (void 0 == _0x50e34a) ? void 0 : _0x50e34a.name) || _0x14c3ed.name || '未命名',
+          'name': ((_0x50e34a = _0x14c3ed['attr']) || (void 0 == _0x50e34a) ? void 0 : _0x50e34a.name) || _0x14c3ed.name || '未命名',
           'checked': _0x14c3ed.show,
           'icon': 'img/tree/plot.png'
         }
@@ -242,7 +242,7 @@ function hideRMenu() {
 }
 
 function moveNodeAndLayer(_0x4c4b2c) {
-  var  layer = objFeature[lastRightClickTreeNode.id]
+  var layer = objFeature[lastRightClickTreeNode.id]
   switch (_0x4c4b2c) {
     case 'g_act':
       thisWidget.changeSelectedLayer(layer)
