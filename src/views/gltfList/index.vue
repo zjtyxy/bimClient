@@ -84,6 +84,7 @@ export default {
       ],
       dataList: [],
       graphicLayer: null,
+      map:null,
       eventTarget: new mars3d.BaseClass()
 
     }
@@ -103,29 +104,44 @@ export default {
     })
   },
   methods: {
-    onMapload(map) {
-      this.graphicLayer = new mars3d.layer.GraphicLayer({
+    onMapload(mapInstance) {
+      this.map = mapInstance
+      debugger
+      this.graphicLayer = new mars3d.layer.GraphicGroupLayer({
+        name:' ',
         hasEdit: true,
+        defaultLayer: '默认分组',
         isAutoEditing: true // 绘制完成后是否自动激活编辑
       })
-      map.addLayer(this.graphicLayer)
+      this.map.addLayer(this.graphicLayer)
+      this.graphicLayer.bindContextMenu([{
+        'text': '删除对象',
+        'iconCls': 'fa fa-trash-o',
+        'callback': function (_0x452763) {
+          _0x452763.graphic && that.deleteEntity(_0x452763.graphic)
+        }
+      }]);
        this.queryModelListData()
+      var that = this;
       //
       // // 触发自定义事件
-      // this.graphicLayer.on(this.mars3d.EventType.drawCreated, function (e) {
-      //   const graphic = e.graphic
-      //   this.eventTarget.fire('editorUI-draw', { graphic })
-      // })
-      // this.graphicLayer.on(
-      //   [this.mars3d.EventType.editStart, this.mars3d.EventType.editMovePoint, this.mars3d.EventType.editStyle, this.mars3d.EventType.editRemovePoint],
-      //   function (e) {
-      //     const graphic = e.graphic
-      //     this.eventTarget.fire('editorUI-SMR', { graphic })
-      //   }
-      // )
-      // this.graphicLayer.on([this.mars3d.EventType.editStop, this.mars3d.EventType.removeGraphic], function (e) {
-      //   this.eventTarget.fire('editorUI-stop')
-      // })
+      this.graphicLayer.on(this.mars3d.EventType.drawCreated, function (e) {
+        debugger
+        const graphic = e.graphic
+        that.eventTarget.fire('editorUI-draw', { graphic })
+      })
+      this.graphicLayer.on(
+        [this.mars3d.EventType.editStart, this.mars3d.EventType.editMovePoint, this.mars3d.EventType.editStyle, this.mars3d.EventType.editRemovePoint],
+        function (e) {
+          debugger
+          const graphic = e.graphic
+          that.eventTarget.fire('editorUI-SMR', { graphic })
+        }
+      )
+      this.graphicLayer.on([this.mars3d.EventType.editStop, this.mars3d.EventType.removeGraphic], function (e) {
+        debugger
+        that.eventTarget.fire('editorUI-stop')
+      })
     },
 // 深度检测
     chkTestTerrain() {

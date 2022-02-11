@@ -7,7 +7,7 @@
 <script>
 import JSelectPlot from '@/components/jeecgbiz/JSelectPlot'
 import Map from '@/components/mars3d/Map.vue'
-import { getAction, getActionAsync } from '@/api/manage'
+import { httpAction, getActionAsync } from '@/api/manage'
 import { axios } from '@/utils/request'
 export default {
   name: 'BimProjectForm',
@@ -39,7 +39,7 @@ export default {
       confirmLoading: false,
       validatorRules: {},
       url: {
-        add: '/bim/bimProject/add',
+        add: "/bim/device/addByPlot",
         edit: '/bim/bimProject/edit',
         queryById: '/bim/bimProject/queryById'
       }
@@ -62,11 +62,11 @@ export default {
   methods: {
     onMapload(map) {
       var that = this;
-      // this.loadTileset(map, '地铁通道', 'http://127.0.0.1/BIM/totle/tileset.json', JSON.stringify({
-      //   lng: 118.699194,
-      //   lat: 31.978852,
-      //   alt: 0.6
-      // }), 558)
+      this.loadTileset(map, '地铁通道', 'http://127.0.0.1/BIM/totle/tileset.json', JSON.stringify({
+        lng: 118.699194,
+        lat: 31.978852,
+        alt: 0.6
+      }), 558)
 
       mars3d.widget.on('saveGeoJson', function (event) {
         if(event){
@@ -77,7 +77,17 @@ export default {
     },
     saveGeoJson(json,layer)
     {
-      console.log(json,layer)
+      console.log(json,layer);
+      httpAction(this.url.add,json,'post').then((res)=>{
+        if(res.success){
+          that.$message.success(res.message);
+          that.$emit('ok');
+        }else{
+          that.$message.warning(res.message);
+        }
+      }).finally(() => {
+        that.confirmLoading = false;
+      })
     },
     edit(record) {
       this.model = Object.assign({}, record)
