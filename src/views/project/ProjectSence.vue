@@ -1,6 +1,15 @@
 <template>
   <div id="centerDiv" class="mapcontainer">
-    <Map :url="configUrl" :widgetUrl="widgetUrl" @onload="onMapload"/>
+    <div class="infoview" style="top: 30%; width: 100px; text-align: center">
+      <a-button @click="showCengByStyle()" type="button" id="btnShowAll" class="btn btn-primary active">整体</a-button>
+      <a-button @click="showCengByStyle(15)" type="button" id="btnShowF5" class="btn btn-primary">15层</a-button>
+      <a-button @click="showCengByStyle(11)" type="button" id="btnShowF4" class="btn btn-primary" >10层</a-button>
+      <a-button @click="showCengByStyle(9)" type="button" id="btnShowF3" class="btn btn-primary">7层</a-button>
+      <a-button @click="showCengByStyle(6)" type="button" id="btnShowF2" class="btn btn-primary">5层</a-button>
+      <a-button @click="showCengByStyle(4)" type="button" id="btnShowF1" class="btn btn-primary">3层</a-button>
+      <a-button @click="showCengByStyle(1)" type="button" id="btnShowD1" class="btn btn-primary">1层</a-button>
+    </div>
+    <Map :url="configUrl" :widgetUrl="widgetUrl" ref="mapshow" @onload="onMapload"/>
   </div>
 </template>
 
@@ -9,6 +18,7 @@ import JSelectPlot from '@/components/jeecgbiz/JSelectPlot'
 import Map from '@/components/mars3d/Map.vue'
 import { httpAction, getActionAsync } from '@/api/manage'
 import { axios } from '@/utils/request'
+
 export default {
   name: 'BimProjectForm',
   components: {
@@ -25,6 +35,7 @@ export default {
   data() {
     const basePathUrl = window.basePathUrl || ''
     return {
+      tiles3dLayer:null,
       configUrl: basePathUrl + 'config/config.json',
       widgetUrl: basePathUrl + 'config/widget.json',
       model: {},
@@ -39,7 +50,7 @@ export default {
       confirmLoading: false,
       validatorRules: {},
       url: {
-        add: "/bim/device/addByPlot",
+        add: '/bim/device/addByPlot',
         edit: '/bim/bimProject/edit',
         queryById: '/bim/bimProject/queryById'
       }
@@ -50,182 +61,52 @@ export default {
       return this.disabled
     },
   },
-  beforeDestroy()
-  {
+  beforeDestroy() {
 
   },
   created() {
     //备份model原始值
-    window.isVue=true
+    window.isVue = true
     this.modelDefault = JSON.parse(JSON.stringify(this.model))
   },
   methods: {
     onMapload(map) {
-      var that = this;
-      this.loadTileset(map, '地铁通道', 'http://127.0.0.1/BIM/totle/tileset.json', JSON.stringify({
+      var that = this
+      this.$refs.mapshow.loadTileset(map, '地铁通道', 'http://127.0.0.1/BIM/totle/tileset.json', JSON.stringify({
         lng: 118.699194,
         lat: 31.978852,
         alt: 0.6
       }), 558)
 
       mars3d.widget.on('saveGeoJson', function (event) {
-        if(event){
-          that.saveGeoJson(event.features,event.layer)
+        if (event) {
+          that.saveGeoJson(event.features, event.layer)
         }
 
       })
     },
-    saveGeoJson(json,layer)
-    {
-      console.log(json,layer);
-      httpAction(this.url.add,json,'post').then((res)=>{
-        if(res.success){
-          that.$message.success(res.message);
-          that.$emit('ok');
-        }else{
-          that.$message.warning(res.message);
+    saveGeoJson(json, layer) {
+      console.log(json, layer)
+      httpAction(this.url.add, json, 'post').then((res) => {
+        if (res.success) {
+          that.$message.success(res.message)
+          that.$emit('ok')
+        } else {
+          that.$message.warning(res.message)
         }
       }).finally(() => {
-        that.confirmLoading = false;
+        that.confirmLoading = false
       })
     },
     edit(record) {
       this.model = Object.assign({}, record)
       this.visible = true
     },
-    loadTileset(map, name, url, position, count) {
-      var configs = {
-        name: name,
-        url: url,
-        'maximumScreenSpaceError': 8,
-        'maximumMemoryUsage': 1024,
-        'show': true,
-        showClickFeature: true,
-        'luminanceAtZenith': 0.3,
-        'scale': 1,
-        'highlight': {
-          'type': 'click',
-        },
-        popup: 'all',
-        flyTo: true
-      }
-      try {
-
-        var ps = JSON.parse(position)
-        configs.position = ps
-      } catch (err) {
-
-      }
-      var tiles3dLayer = new this.mars3d.layer.TilesetLayer(configs)
-      map.addLayer(tiles3dLayer)
-      this.attachTileset(map.viewer, tiles3dLayer.tileset, count)
-    },
-    async  attachTileset(viewer, tileset, count) {
-      var dbIdToFeatures = {}
-      var hiddenDbIds = []
-      var selected = []
-      var selectedDbId = -1
-      var highlighted = []
-      var expro = []
-      var tilesetUrl = tileset.url || tileset.resource.url
-      var lastIndex = tilesetUrl.lastIndexOf('/')
-      var basePath = lastIndex === -1 ? '.' : tilesetUrl.substr(0, lastIndex)
-
-      for (var i = 0; i < count; i++) {
-          var sddd = await getActionAsync(basePath+'/info/'+parseInt(i)+'.json', {});
-          var rst = JSON.parse(sddd)
-          expro.push(rst.data)
-
-      }
-
-
-      function getFeatureDbId(feature) {
-        if (Cesium.defined(feature) && Cesium.defined(feature.getProperty)) {
-          return parseInt(feature.getProperty('DbId'), 10)
-        }
-        return -1
-      }
-
-      function unloadFeature(feature) {
-        const dbId = getFeatureDbId(feature)
-        const features = dbIdToFeatures[dbId]
-        features.splice(features.findIndex(item => item.feature === feature), 1)
-
-        if (dbId === selectedDbId) {
-          selected.splice(selected.findIndex(item => item.feature === feature), 1)
-        }
-
-        if (dbId === highlighted) {
-          highlighted.splice(highlighted.findIndex(item => item.feature === feature), 1)
-        }
-      }
-
-      function loadFeature(feature) {
-        const dbId = getFeatureDbId(feature)
-        let features = dbIdToFeatures[dbId]
-        var propsData = feature && feature.getProperty('Props')
-        if (propsData) {
-
-        } else {
-          var dsa = expro[parseInt(dbId / 100)][dbId]
-          if (dsa.categories) {
-
-            for (var j = 0; j < dsa.categories.length; j++) {
-              if (dsa.categories[j].name == '约束' || dsa.categories[j].name == '尺寸标注' || dsa.categories[j].name == '数据' || dsa.categories[j].name == '其他') {
-                var names = dsa.categories[j].props.names
-                var valus = dsa.categories[j].props.values
-                for (var ii = 0; ii < names.length; ii++) {
-                  feature.setProperty(names[ii], valus[ii])
-                }
-              }
-
-            }
-
-          }
-
-        }
-
-        if (!Cesium.defined(features)) {
-          dbIdToFeatures[dbId] = features = []
-
-        }
-        features.push(feature)
-
-        if (hiddenDbIds.indexOf(dbId) > -1) {
-          feature.show = false
-        }
-      }
-
-      function processContentFeatures(content, callback) {
-        const featuresLength = content.featuresLength
-        for (let i = 0; i < featuresLength; ++i) {
-          const feature = content.getFeature(i)
-          callback(feature)
-        }
-      }
-
-      function processTileFeatures(tile, callback) {
-        const content = tile.content
-        const innerContents = content.innerContents
-        if (Cesium.defined(innerContents)) {
-          const length = innerContents.length
-          for (let i = 0; i < length; ++i) {
-            processContentFeatures(innerContents[i], callback)
-          }
-        } else {
-          processContentFeatures(content, callback)
-        }
-      }
-
-      tileset.tileLoad.addEventListener(function (tile) {
-        processTileFeatures(tile, loadFeature)
-      })
-
-      tileset.tileUnload.addEventListener(function (tile) {
-        processTileFeatures(tile, unloadFeature)
-      })
-
+    showCengByStyle(index)
+    {
+      this.$refs.mapshow.showCengByStyle(index);
     }
+
   }
 }
 </script>

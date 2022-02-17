@@ -8,7 +8,7 @@
       </a-form>
     </div>
     <!-- 查询区域-END -->
-
+    
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
@@ -18,12 +18,6 @@
       </a-upload>
       <!-- 高级查询区域 -->
       <j-super-query :fieldList="superFieldList" ref="superQueryModal" @handleSuperQuery="handleSuperQuery"></j-super-query>
-      <a-dropdown v-if="selectedRowKeys.length > 0">
-        <a-menu slot="overlay">
-          <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>
-        </a-menu>
-        <a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>
-      </a-dropdown>
     </div>
 
     <!-- table区域-begin -->
@@ -44,7 +38,8 @@
         :dataSource="dataSource"
         :pagination="ipagination"
         :loading="loading"
-        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange, type:'radio'}"
+        :customRow="clickThenSelect"
         @change="handleTableChange">
 
         <template slot="htmlSlot" slot-scope="text">
@@ -75,9 +70,6 @@
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
             <a-menu slot="overlay">
               <a-menu-item>
-                <a @click="handleDetail(record)">详情</a>
-              </a-menu-item>
-              <a-menu-item>
                 <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
                   <a>删除</a>
                 </a-popconfirm>
@@ -89,7 +81,16 @@
       </a-table>
     </div>
 
-    <device-modal ref="modalForm" @ok="modalFormOk"/>
+    <a-tabs defaultActiveKey="1">
+      <a-tab-pane tab="属性表" key="1" >
+        <AttributeKvList :mainId="selectedMainId" />
+      </a-tab-pane>
+      <a-tab-pane tab="认证信息" key="2" forceRender>
+        <DeviceCredentialsList :mainId="selectedMainId" />
+      </a-tab-pane>
+    </a-tabs>
+
+    <device-modal ref="modalForm" @ok="modalFormOk"></device-modal>
   </a-card>
 </template>
 
@@ -97,14 +98,19 @@
 
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import DeviceModal from './modules/DeviceModal'
+  import { getAction } from '@/api/manage'
+  import AttributeKvList from './AttributeKvList'
+  import DeviceCredentialsList from './DeviceCredentialsList'
   import { loadCategoryData } from '@/api/api'
-  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
+  import {initDictOptions,filterMultiDictText} from '@/components/dict/JDictSelectUtil'
   import '@/assets/less/TableExpand.less'
 
   export default {
     name: "DeviceList",
     mixins:[JeecgListMixin],
     components: {
+      AttributeKvList,
+      DeviceCredentialsList,
       DeviceModal
     },
     data () {
@@ -112,16 +118,6 @@
         description: '设备信息管理页面',
         // 表头
         columns: [
-          {
-            title: '#',
-            dataIndex: '',
-            key:'rowIndex',
-            width:60,
-            align:"center",
-            customRender:function (t,r,index) {
-              return parseInt(index)+1;
-            }
-          },
           {
             title:'客户',
             align:"center",
@@ -131,7 +127,13 @@
             title:'类型',
             align:"center",
             dataIndex: 'type',
-            customRender: (text) => (text ? filterMultiDictText(this.dictOptions['type'], text) : '')
+            customRender:(text)=>{
+              if(!text){
+                return ''
+              }else{
+                return filterMultiDictText(this.dictOptions['type'], text+"")
+              }
+            }
           },
           {
             title:'名称',
@@ -142,6 +144,11 @@
             title:'标记',
             align:"center",
             dataIndex: 'labelT'
+          },
+          {
+            title:'凭证类型',
+            align:"center",
+            dataIndex: 'authType_dictText',
           },
           {
             title: '操作',
@@ -157,10 +164,24 @@
           delete: "/device/device/delete",
           deleteBatch: "/device/device/deleteBatch",
           exportXlsUrl: "/device/device/exportXls",
-          importExcelUrl: "/device/device/importExcel",
-
+          importExcelUrl: "device/device/importExcel",
         },
-        dictOptions:{},
+        dictOptions:{
+         authType:[],
+        },
+        /* 分页参数 */
+        ipagination:{
+          current: 1,
+          pageSize: 5,
+          pageSizeOptions: ['5', '10', '50'],
+          showTotal: (total, range) => {
+            return range[0] + "-" + range[1] + " 共" + total + "条"
+          },
+          showQuickJumper: true,
+          showSizeChanger: true,
+          total: 0
+        },
+        selectedMainId:'',
         superFieldList:[],
       }
     },
@@ -179,25 +200,74 @@
             this.$set(this.dictOptions, 'type', res.result)
           }
         })
+        initDictOptions('auth_type').then((res) => {
+          if (res.success) {
+            this.$set(this.dictOptions, 'authType', res.result)
+          }
+        })
+      },
+      clickThenSelect(record) {
+        return {
+          on: {
+            click: () => {
+              this.onSelectChange(record.id.split(","), [record]);
+            }
+          }
+        }
+      },
+      onClearSelected() {
+        this.selectedRowKeys = [];
+        this.selectionRows = [];
+        this.selectedMainId=''
+      },
+      onSelectChange(selectedRowKeys, selectionRows) {
+        this.selectedMainId=selectedRowKeys[0]
+        this.selectedRowKeys = selectedRowKeys;
+        this.selectionRows = selectionRows;
+      },
+      loadData(arg) {
+        if(!this.url.list){
+          this.$message.error("请设置url.list属性!")
+          return
+        }
+        //加载数据 若传入参数1则加载第一页的内容
+        if (arg === 1) {
+          this.ipagination.current = 1;
+        }
+        this.onClearSelected()
+        var params = this.getQueryParams();//查询条件
+        this.loading = true;
+        getAction(this.url.list, params).then((res) => {
+          if (res.success) {
+            this.dataSource = res.result.records;
+            this.ipagination.total = res.result.total;
+          }
+          if(res.code===510){
+            this.$message.warning(res.message)
+          }
+          this.loading = false;
+        })
       },
       getSuperFieldList(){
         let fieldList=[];
-         fieldList.push({type:'popup',value:'customerName',text:'客户', popup:{code:'pop_customer',field:'id',orgFields:'id',destFields:'customer_id'}})
-         fieldList.push({type:'string',value:'type',text:'类型'})
-         fieldList.push({type:'string',value:'name',text:'名称',dictCode:''})
-         fieldList.push({type:'string',value:'labelT',text:'标记',dictCode:''})
-         fieldList.push({type:'string',value:'searchText',text:'描述',dictCode:''})
-         fieldList.push({type:'Text',value:'additionalInfo',text:'附加信息',dictCode:''})
-         fieldList.push({type:'string',value:'deviceProfileId',text:'设备配置',dictCode:'device_profile,name,id'})
-         fieldList.push({type:'string',value:'firmwareId',text:'固件ID',dictCode:''})
-         fieldList.push({type:'string',value:'softwareId',text:'软件ID',dictCode:''})
-         fieldList.push({type:'Text',value:'deviceData',text:'设备数据',dictCode:''})
-         fieldList.push({type:'Text',value:'geoInfo',text:'地理数据',dictCode:''})
+        fieldList.push({type:'popup',value:'customerName',text:'客户', popup:{code:'pop_customer',field:'id',orgFields:'id',destFields:'customer_id'}})
+        fieldList.push({type:'string',value:'type',text:'类型'})
+        fieldList.push({type:'string',value:'name',text:'名称',dictCode:''})
+        fieldList.push({type:'string',value:'labelT',text:'标记',dictCode:''})
+        fieldList.push({type:'string',value:'searchText',text:'描述',dictCode:''})
+        fieldList.push({type:'Text',value:'additionalInfo',text:'附加信息',dictCode:''})
+        fieldList.push({type:'string',value:'deviceProfileId',text:'设备配置',dictCode:'device_profile,name,id'})
+        fieldList.push({type:'string',value:'firmwareId',text:'固件ID',dictCode:''})
+        fieldList.push({type:'string',value:'softwareId',text:'软件ID',dictCode:''})
+        fieldList.push({type:'Text',value:'deviceData',text:'设备数据',dictCode:''})
+        fieldList.push({type:'string',value:'authType',text:'凭证类型',dictCode:'auth_type'})
+        fieldList.push({type:'string',value:'authToken',text:'凭证',dictCode:''})
+        fieldList.push({type:'Text',value:'geoInfo',text:'地理数据',dictCode:''})
         this.superFieldList = fieldList
       }
     }
   }
 </script>
 <style scoped>
-  @import '~@assets/less/common.less';
+  @import '~@assets/less/common.less'
 </style>

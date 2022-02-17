@@ -9,7 +9,7 @@
     :okButtonProps="{ class:{'jee-hidden': disableSubmit} }"
     @cancel="handleCancel"
     cancelText="关闭">
-    <Map  :url="configUrl" :widgetUrl="widgetUrl" @onload="onMapload"/>
+    <Map  :url="configUrl" ref="mapShower" :widgetUrl="widgetUrl" @onload="onMapload"/>
 
   </j-modal>
 </template>
@@ -29,6 +29,7 @@ import Map from '@/components/mars3d/Map.vue'
     data () {
       return {
         title:'',
+        record:null,
         width:800,
         visible: false,
         disableSubmit: false,
@@ -39,11 +40,7 @@ import Map from '@/components/mars3d/Map.vue'
     },
     methods: {
       onMapload(map) {
-        // this.loadTileset(map, '地铁通道', 'http://127.0.0.1/BIM/totle/tileset.json', JSON.stringify({
-        //   lng: 118.699194,
-        //   lat: 31.978852,
-        //   alt: 0.6
-        // }), 558)
+        this.$refs.mapShower.loadTileset(map, '地铁通道', this.record.url, this.record.position, this.record.infoCount)
       },
       goUrl (params) {
        //this.url= `${window._CONFIG['domianURL']}`+'/bim/bimShow/3dtListShow?'+params+"&token=" + Vue.ls.get('Access-Token');
@@ -51,7 +48,7 @@ import Map from '@/components/mars3d/Map.vue'
       },
       show (record) {
         this.visible=true
-        this.goUrl ('id='+record.id);
+        this.record =record;
       },
       listShow (ids) {
         this.visible=true
