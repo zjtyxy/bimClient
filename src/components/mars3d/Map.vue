@@ -55,7 +55,17 @@ export default {
   },
 
   beforeDestroy () {
-    mars3d.widget.destroy();
+   // mars3d.widget.disableAll();
+    //mars3d.widget.disable('/widgets/plot-model/widget.js');
+   // mars3d.widget.destroy();
+   //  this[`map${this.mapKey}`].destroy()
+   //  delete this[`map${this.mapKey}`]
+  },
+  destroyed() {
+  //  mars3d.widget.destroy()
+    mars3d.widget.disable('/widgets/plot-model/widget.js');
+    mars3d.widget.disableAll( this[`map${this.mapKey}`]);
+    mars3d.widget.destroy()
     this[`map${this.mapKey}`].destroy()
     delete this[`map${this.mapKey}`]
   },
@@ -69,7 +79,6 @@ export default {
       // 创建三维地球场景
       var map = new mars3d.Map(`mars3d-container${this.mapKey}`, mapOptions)
       this[`map${this.mapKey}`] = map
-      console.log('>>>>> 地图创建成功 >>>>', map)
 
       // 抛出事件
       this.$emit('onload', map)
@@ -112,7 +121,13 @@ export default {
       expro.push(rst.data)
 
     }
+    tileset.tileLoad.addEventListener(function (tile) {
+      processTileFeatures(tile, loadFeature)
+    })
 
+    tileset.tileUnload.addEventListener(function (tile) {
+      processTileFeatures(tile, unloadFeature)
+    })
     function getFeatureDbId(feature) {
       if (Cesium.defined(feature) && Cesium.defined(feature.getProperty)) {
         return parseInt(feature.getProperty('DbId'), 10)
@@ -191,13 +206,7 @@ export default {
       }
     }
 
-    tileset.tileLoad.addEventListener(function (tile) {
-      processTileFeatures(tile, loadFeature)
-    })
 
-    tileset.tileUnload.addEventListener(function (tile) {
-      processTileFeatures(tile, unloadFeature)
-    })
 
   },
     loadTileset(map, name, url, position, count) {

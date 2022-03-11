@@ -18,12 +18,12 @@
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="属性名称" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="attributeKey">
-              <a-input v-model="model.attributeKey"placeholder="请输入属性名称" ></a-input>
+              <a-input v-model="model.attributeKey" placeholder="请输入属性名称" ></a-input>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
             <a-form-model-item label="属性类型" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="attributeType">
-              <j-dict-select-tag type="list" v-model="model.attributeType" dictCode="attr_value_type" placeholder="请选择属性类型" />
+              <j-dict-select-tag type="list" v-model="model.dataType" dictCode="attr_value_type" placeholder="请选择属性类型" />
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
@@ -129,7 +129,7 @@
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            if(!this.model.id){
+            if(!this.model.entityId){
               httpurl+=this.url.add;
               method = 'post';
             }else{

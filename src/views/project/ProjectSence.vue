@@ -1,14 +1,6 @@
 <template>
   <div id="centerDiv" class="mapcontainer">
-    <div class="infoview" style="top: 30%; width: 100px; text-align: center">
-      <a-button @click="showCengByStyle()" type="button" id="btnShowAll" class="btn btn-primary active">整体</a-button>
-      <a-button @click="showCengByStyle(15)" type="button" id="btnShowF5" class="btn btn-primary">15层</a-button>
-      <a-button @click="showCengByStyle(11)" type="button" id="btnShowF4" class="btn btn-primary" >10层</a-button>
-      <a-button @click="showCengByStyle(9)" type="button" id="btnShowF3" class="btn btn-primary">7层</a-button>
-      <a-button @click="showCengByStyle(6)" type="button" id="btnShowF2" class="btn btn-primary">5层</a-button>
-      <a-button @click="showCengByStyle(4)" type="button" id="btnShowF1" class="btn btn-primary">3层</a-button>
-      <a-button @click="showCengByStyle(1)" type="button" id="btnShowD1" class="btn btn-primary">1层</a-button>
-    </div>
+   <tileset-editor ref="tilesetEditor"></tileset-editor>
     <Map :url="configUrl" :widgetUrl="widgetUrl" ref="mapshow" @onload="onMapload"/>
   </div>
 </template>
@@ -18,10 +10,15 @@ import JSelectPlot from '@/components/jeecgbiz/JSelectPlot'
 import Map from '@/components/mars3d/Map.vue'
 import { httpAction, getActionAsync } from '@/api/manage'
 import { axios } from '@/utils/request'
+import MarsPannel from '@comp/mars-ui/mars-pannel'
+import TilesetEditor from '@comp/jeecg/TilesetEditor'
+
 
 export default {
   name: 'BimProjectForm',
   components: {
+    TilesetEditor,
+    MarsPannel,
     JSelectPlot, Map
   },
   props: {
@@ -50,7 +47,7 @@ export default {
       confirmLoading: false,
       validatorRules: {},
       url: {
-        add: '/bim/device/addByPlot',
+        add: '/device/device/addByPlot',
         edit: '/bim/bimProject/edit',
         queryById: '/bim/bimProject/queryById'
       }
@@ -71,22 +68,23 @@ export default {
   },
   methods: {
     onMapload(map) {
+      this.$refs.tilesetEditor.mapOnload(map);
       var that = this
-      this.$refs.mapshow.loadTileset(map, '地铁通道', 'http://127.0.0.1/BIM/totle/tileset.json', JSON.stringify({
-        lng: 118.699194,
-        lat: 31.978852,
-        alt: 0.6
-      }), 558)
-
-      mars3d.widget.on('saveGeoJson', function (event) {
-        if (event) {
-          that.saveGeoJson(event.features, event.layer)
-        }
-
-      })
+      // this.$refs.mapshow.loadTileset(map, '地铁通道', 'http://127.0.0.1/BIM/totle/tileset.json', JSON.stringify({
+      //   lng: 118.699194,
+      //   lat: 31.978852,
+      //   alt: 0.6
+      // }), 558)
+      //
+      // mars3d.widget.on('saveGeoJson', function (event) {
+      //   if (event) {
+      //     that.saveGeoJson(event.features, event.layer)
+      //   }
+      //
+      // })
     },
     saveGeoJson(json, layer) {
-      console.log(json, layer)
+      var that = this;
       httpAction(this.url.add, json, 'post').then((res) => {
         if (res.success) {
           that.$message.success(res.message)
@@ -117,4 +115,8 @@ export default {
   height: 766px;
   overflow: hidden;
 }
+.ant-space {
+   display: grid;
+ }
+
 </style>

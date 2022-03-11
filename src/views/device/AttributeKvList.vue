@@ -136,7 +136,7 @@
           {
             title:'属性类型',
             align:"center",
-            dataIndex: 'attributeType_dictText',
+            dataIndex: 'dataType_dictText',
           },
           {
             title:'布尔值',

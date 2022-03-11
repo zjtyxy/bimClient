@@ -23,6 +23,11 @@
               <a-input v-model="model.url" placeholder="请输入模型地址"  ></a-input>
             </a-form-model-item>
           </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="缺省尺寸" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="defaultSize">
+              <a-input-number v-model="model.defaultSize" placeholder="请输入缺省尺寸" style="width: 100%" />
+            </a-form-model-item>
+          </a-col>
         </a-row>
       </a-form-model>
     </j-form-container>
