@@ -1,6 +1,6 @@
 <template>
   <div id="centerDiv" class="mapcontainer">
-   <tileset-editor ref="tilesetEditor"></tileset-editor>
+   <tileset-editor ref="tilesetEditor" @saveOptions="saveOptions"></tileset-editor>
     <Map :url="configUrl" :widgetUrl="widgetUrl" ref="mapshow" @onload="onMapload"/>
   </div>
 </template>
@@ -83,6 +83,11 @@ export default {
       //
       // })
     },
+    saveOptions(options)
+    {
+      mars3d.Util.downloadFile("3dtiles图层配置.json",options)
+    },
+
     saveGeoJson(json, layer) {
       var that = this;
       httpAction(this.url.add, json, 'post').then((res) => {

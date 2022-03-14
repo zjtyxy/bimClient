@@ -89,7 +89,8 @@
 
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
-
+          <a-divider type="vertical"/>
+          <a @click="handle3dShow(record)">场景编辑</a>
           <a-divider type="vertical" />
           <a-dropdown>
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
@@ -110,6 +111,7 @@
     </div>
 
     <bim-project-modal ref="modalForm" @ok="modalFormOk"></bim-project-modal>
+    <model-editor-modal ref="modalShowForm"></model-editor-modal>
   </a-card>
 </template>
 
@@ -119,12 +121,15 @@
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import BimProjectModal from './modules/BimProjectModal'
-  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
+
+
+  import ModelEditorModal from '@views/project/modules/ModelEditorModal'
 
   export default {
     name: 'BimProjectList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
+      ModelEditorModal,
       BimProjectModal
     },
     data () {
@@ -182,7 +187,7 @@
           deleteBatch: "/bim/bimProject/deleteBatch",
           exportXlsUrl: "/bim/bimProject/exportXls",
           importExcelUrl: "bim/bimProject/importExcel",
-          
+
         },
         dictOptions:{},
         superFieldList:[],
@@ -198,6 +203,10 @@
     },
     methods: {
       initDictConfig(){
+      },
+      handle3dShow(record) //展示
+      {
+        this.$refs.modalShowForm.show(record)
       },
       getSuperFieldList(){
         let fieldList=[];
