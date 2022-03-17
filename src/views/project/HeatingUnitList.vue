@@ -5,15 +5,27 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="项目名称">
-              <a-input placeholder="请输入项目名称" v-model="queryParam.name"></a-input>
+            <a-form-item label="描述">
+              <a-input placeholder="请输入描述" v-model="queryParam.name"></a-input>
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="项目地址">
-              <a-input placeholder="请输入项目地址" v-model="queryParam.address"></a-input>
+            <a-form-item label="供热方式">
+              <j-dict-select-tag placeholder="请选择供热方式" v-model="queryParam.heatingMode" dictCode="heating_type"/>
             </a-form-item>
           </a-col>
+          <template v-if="toggleSearchStatus">
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="建筑结构">
+                <j-dict-select-tag placeholder="请选择建筑结构" v-model="queryParam.buildingStructure" dictCode="building_structure"/>
+              </a-form-item>
+            </a-col>
+            <a-col :xl="6" :lg="7" :md="8" :sm="24">
+              <a-form-item label="所在单元">
+                <a-input placeholder="请输入所在单元" v-model="queryParam.roomUnit"></a-input>
+              </a-form-item>
+            </a-col>
+          </template>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
@@ -32,7 +44,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('项目信息')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('房屋单元')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -89,10 +101,7 @@
 
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
-          <a-divider type="vertical"/>
-          <a @click="handle3dEdit(record)">场景编辑</a>
-          <a-divider type="vertical"/>
-          <a @click="handle3dShow(record)">场景展示</a>
+
           <a-divider type="vertical" />
           <a-dropdown>
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
@@ -112,10 +121,7 @@
       </a-table>
     </div>
 
-    <bim-project-modal ref="modalForm" @ok="modalFormOk"></bim-project-modal>
-    <model-show-modal ref="modalShowForm"></model-show-modal>
-    <model-editor-modal ref="modalEditForm"></model-editor-modal>
-
+    <heating-unit-modal ref="modalForm" @ok="modalFormOk"></heating-unit-modal>
   </a-card>
 </template>
 
@@ -124,24 +130,18 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import BimProjectModal from './modules/BimProjectModal'
-
-
-  import ModelEditorModal from '@views/project/modules/ModelEditorModal'
-  import ModelShowModal from '@views/project/modules/ModelShowModal'
-
+  import HeatingUnitModal from './modules/HeatingUnitModal'
+  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
 
   export default {
-    name: 'BimProjectList',
+    name: 'HeatingUnitList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      ModelShowModal,
-      ModelEditorModal,
-      BimProjectModal
+      HeatingUnitModal
     },
     data () {
       return {
-        description: '项目信息管理页面',
+        description: '房屋单元管理页面',
         // 表头
         columns: [
           {
@@ -155,29 +155,54 @@
             }
           },
           {
-            title:'创建人',
+            title:'所属建筑',
             align:"center",
-            dataIndex: 'createBy'
+            dataIndex: 'roomBuiding_dictText'
           },
           {
-            title:'项目名称',
+            title:'描述',
             align:"center",
             dataIndex: 'name'
           },
           {
-            title:'项目地址',
+            title:'供热方式',
             align:"center",
-            dataIndex: 'address'
+            dataIndex: 'heatingMode_dictText'
           },
           {
-            title:'项目信息',
+            title:'建筑结构',
             align:"center",
-            dataIndex: 'info'
+            dataIndex: 'buildingStructure_dictText'
           },
           {
-            title:'项目类型',
+            title:'建筑面积',
             align:"center",
-            dataIndex: 'type_dictText'
+            dataIndex: 'buildingArea'
+          },
+          {
+            title:'建筑高度',
+            align:"center",
+            dataIndex: 'buildingHeight'
+          },
+          {
+            title:'所在楼层',
+            align:"center",
+            dataIndex: 'roomLayer'
+          },
+          {
+            title:'所在单元',
+            align:"center",
+            dataIndex: 'roomUnit'
+          },
+          {
+            title:'基础高度',
+            align:"center",
+            dataIndex: 'baseHeight'
+          },
+          {
+            title:'房间编号',
+            align:"center",
+            dataIndex: 'roomNumber'
           },
           {
             title: '操作',
@@ -189,12 +214,12 @@
           }
         ],
         url: {
-          list: "/bim/bimProject/list",
-          delete: "/bim/bimProject/delete",
-          deleteBatch: "/bim/bimProject/deleteBatch",
-          exportXlsUrl: "/bim/bimProject/exportXls",
-          importExcelUrl: "bim/bimProject/importExcel",
-
+          list: "/project/heatingUnit/list",
+          delete: "/project/heatingUnit/delete",
+          deleteBatch: "/project/heatingUnit/deleteBatch",
+          exportXlsUrl: "/project/heatingUnit/exportXls",
+          importExcelUrl: "project/heatingUnit/importExcel",
+          
         },
         dictOptions:{},
         superFieldList:[],
@@ -211,24 +236,19 @@
     methods: {
       initDictConfig(){
       },
-      handle3dShow(record) //展示
-      {
-
-        this.$refs.modalShowForm.show(record)
-      },
-      handle3dEdit(record) //展示
-      {
-        this.$refs.modalEditForm.show(record)
-      },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'createBy',text:'创建人',dictCode:''})
-        fieldList.push({type:'string',value:'name',text:'项目名称',dictCode:''})
-        fieldList.push({type:'string',value:'address',text:'项目地址',dictCode:''})
-        fieldList.push({type:'string',value:'info',text:'项目信息',dictCode:''})
-        fieldList.push({type:'string',value:'location',text:'项目中心位置',dictCode:''})
-        fieldList.push({type:'string',value:'type',text:'项目类型',dictCode:'project_type'})
-        fieldList.push({type:'Text',value:'scene',text:'项目场景',dictCode:''})
+        fieldList.push({type:'string',value:'roomBuiding',text:'所属建筑',dictCode:'building,building_number,id'})
+        fieldList.push({type:'string',value:'name',text:'描述',dictCode:''})
+        fieldList.push({type:'string',value:'heatingMode',text:'供热方式',dictCode:'heating_type'})
+        fieldList.push({type:'string',value:'buildingStructure',text:'建筑结构',dictCode:'building_structure'})
+        fieldList.push({type:'string',value:'buildingArea',text:'建筑面积',dictCode:''})
+        fieldList.push({type:'double',value:'buildingHeight',text:'建筑高度',dictCode:''})
+        fieldList.push({type:'int',value:'roomLayer',text:'所在楼层',dictCode:''})
+        fieldList.push({type:'string',value:'roomUnit',text:'所在单元',dictCode:''})
+        fieldList.push({type:'double',value:'baseHeight',text:'基础高度',dictCode:''})
+        fieldList.push({type:'popup',value:'roomDiagram',text:'户型图', popup:{code:'unit_map_popup',field:'name',orgFields:'name',destFields:'name'}})
+        fieldList.push({type:'string',value:'roomNumber',text:'房间编号',dictCode:''})
         this.superFieldList = fieldList
       }
     }

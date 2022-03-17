@@ -38,7 +38,7 @@ import JSelectPlot from '@/components/jeecgbiz/JSelectPlot'
 import Map from '@/components/mars3d/Map.vue'
 import { httpAction, getActionAsync } from '@/api/manage'
 import { axios } from '@/utils/request'
-import HuxingLayer from './HuxingLayer'
+import HuxingLayer from '@comp/mars3d/HuxingLayer'
 import echarts from 'echarts'
 export default {
   name: 'BimProjectForm',

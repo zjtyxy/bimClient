@@ -84,7 +84,7 @@ export default {
       var that = this
       // mars3d.widget.activate({
       //   'uri': '/widgets/plot-model/widget.js'});
-      map.onlyPickModelPosition = true
+      //map.onlyPickModelPosition = true
       var tiles3dLayer = new mars3d.layer.TilesetLayer({
         url: '//data.mars3d.cn/3dtiles/max-fcfh/tileset.json',
         maximumScreenSpaceError: 1,

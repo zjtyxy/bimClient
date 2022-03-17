@@ -5,13 +5,14 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="项目名称">
-              <a-input placeholder="请输入项目名称" v-model="queryParam.name"></a-input>
+            <a-form-item label="所属项目">
+              <j-dict-select-tag placeholder="请选择所属项目" v-model="queryParam.project" dictCode="bim_project
+,name,id"/>
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
-            <a-form-item label="项目地址">
-              <a-input placeholder="请输入项目地址" v-model="queryParam.address"></a-input>
+            <a-form-item label=" 楼栋编号">
+              <a-input placeholder="请输入 楼栋编号" v-model="queryParam.buildingNumber"></a-input>
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
@@ -32,7 +33,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('项目信息')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('楼栋信息')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -89,10 +90,7 @@
 
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
-          <a-divider type="vertical"/>
-          <a @click="handle3dEdit(record)">场景编辑</a>
-          <a-divider type="vertical"/>
-          <a @click="handle3dShow(record)">场景展示</a>
+
           <a-divider type="vertical" />
           <a-dropdown>
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
@@ -112,10 +110,7 @@
       </a-table>
     </div>
 
-    <bim-project-modal ref="modalForm" @ok="modalFormOk"></bim-project-modal>
-    <model-show-modal ref="modalShowForm"></model-show-modal>
-    <model-editor-modal ref="modalEditForm"></model-editor-modal>
-
+    <building-modal ref="modalForm" @ok="modalFormOk"></building-modal>
   </a-card>
 </template>
 
@@ -124,24 +119,18 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import BimProjectModal from './modules/BimProjectModal'
-
-
-  import ModelEditorModal from '@views/project/modules/ModelEditorModal'
-  import ModelShowModal from '@views/project/modules/ModelShowModal'
-
+  import BuildingModal from './modules/BuildingModal'
+  import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
 
   export default {
-    name: 'BimProjectList',
+    name: 'BuildingList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      ModelShowModal,
-      ModelEditorModal,
-      BimProjectModal
+      BuildingModal
     },
     data () {
       return {
-        description: '项目信息管理页面',
+        description: '楼栋信息管理页面',
         // 表头
         columns: [
           {
@@ -155,29 +144,24 @@
             }
           },
           {
-            title:'创建人',
+            title:'所属项目',
             align:"center",
-            dataIndex: 'createBy'
+            dataIndex: 'project_dictText'
           },
           {
-            title:'项目名称',
+            title:' 楼栋编号',
             align:"center",
-            dataIndex: 'name'
+            dataIndex: 'buildingNumber'
           },
           {
-            title:'项目地址',
+            title:'单元数量',
             align:"center",
-            dataIndex: 'address'
+            dataIndex: 'unitsCounts'
           },
           {
-            title:'项目信息',
+            title:'模型类型',
             align:"center",
-            dataIndex: 'info'
-          },
-          {
-            title:'项目类型',
-            align:"center",
-            dataIndex: 'type_dictText'
+            dataIndex: 'modelType_dictText'
           },
           {
             title: '操作',
@@ -189,11 +173,11 @@
           }
         ],
         url: {
-          list: "/bim/bimProject/list",
-          delete: "/bim/bimProject/delete",
-          deleteBatch: "/bim/bimProject/deleteBatch",
-          exportXlsUrl: "/bim/bimProject/exportXls",
-          importExcelUrl: "bim/bimProject/importExcel",
+          list: "/project/building/list",
+          delete: "/project/building/delete",
+          deleteBatch: "/project/building/deleteBatch",
+          exportXlsUrl: "/project/building/exportXls",
+          importExcelUrl: "project/building/importExcel",
 
         },
         dictOptions:{},
@@ -211,24 +195,12 @@
     methods: {
       initDictConfig(){
       },
-      handle3dShow(record) //展示
-      {
-
-        this.$refs.modalShowForm.show(record)
-      },
-      handle3dEdit(record) //展示
-      {
-        this.$refs.modalEditForm.show(record)
-      },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'createBy',text:'创建人',dictCode:''})
-        fieldList.push({type:'string',value:'name',text:'项目名称',dictCode:''})
-        fieldList.push({type:'string',value:'address',text:'项目地址',dictCode:''})
-        fieldList.push({type:'string',value:'info',text:'项目信息',dictCode:''})
-        fieldList.push({type:'string',value:'location',text:'项目中心位置',dictCode:''})
-        fieldList.push({type:'string',value:'type',text:'项目类型',dictCode:'project_type'})
-        fieldList.push({type:'Text',value:'scene',text:'项目场景',dictCode:''})
+        fieldList.push({type:'string',value:'project',text:'所属项目',dictCode:'bim_project,name,id'})
+        fieldList.push({type:'string',value:'buildingNumber',text:' 楼栋编号',dictCode:''})
+        fieldList.push({type:'int',value:'unitsCounts',text:'单元数量',dictCode:''})
+        fieldList.push({type:'string',value:'modelType',text:'模型类型',dictCode:'building_model_type'})
         this.superFieldList = fieldList
       }
     }

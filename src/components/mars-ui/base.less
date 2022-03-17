@@ -44,7 +44,9 @@
 /deep/ .ant-collapse-content {
   color: @mars-basecolor !important;
 }
-
+/deep/ .ant-slider{
+  width: 160px;
+}
 /deep/ .ant-collapse-extra {
   .i-icon {
     font-size: 16px;
@@ -78,10 +80,25 @@
   margin-bottom: 0 !important;
 }
 
-
-
-
-
+/deep/.ant-slider-track {
+  height: 10px;
+  border-radius: 5px;
+  background-color: #4db3ff!important;
+}
+/deep/.ant-slider-rail {
+  height: 10px;
+  border-radius: 5px;
+  background-color: #9fd9fd!important;
+}
+/deep/.ant-slider-handle {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin-top: -4px;
+}
+/deep/.ant-select{
+  width: 100%;
+}
 /deep/.ant-card-head {
     border-color: @mars-basecolor;
     min-height: auto;
@@ -96,9 +113,32 @@
 /deep/.ant-card-body {
     padding: 10px;
   }
-
-
-
+.mars-select {
+  background-color: #3f4854b3!important;
+  background: none;
+}
+/deep/.ant-select {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #000000d9;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+/deep/.ant-select:not(.ant-select-customize-input) /deep/.ant-select-selector /deep/.ant-select-selection-search-input {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  appearance: none;
+}
 /deep/.ant-upload {
   color: @mars-basecolor;
 }

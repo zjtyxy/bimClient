@@ -8,7 +8,7 @@
 
               <a-form-item label="模型URL地址">
 <!--                <a-input v-model:value="formState.txtModel" style="width: 100%"></a-input>-->
-               <a-select style="width: 180px" v-model:value="selectModel" @change="formModelChange" :options="modelOptions"></a-select>
+               <a-select v-model:value="selectModel" @change="formModelChange" :options="modelOptions"></a-select>
               </a-form-item>
             </div>
 
@@ -64,7 +64,7 @@
             </a-form-item>
 
             <a-form-item label="变换垂直轴">
-              <a-select style="width: 180px" v-model:value="formState.axis" @change="formStateChange" :options="axisOptions"></a-select>
+              <a-select v-model:value="formState.axis" @change="formStateChange" :options="axisOptions"></a-select>
             </a-form-item>
             <a-form-item label="鼠标拖拽编辑">
               <a-switch v-model:checked="formState.tilesEditorEnabled" @change="formStateChange"/>
@@ -185,6 +185,24 @@ export default {
         luminanceAtZenith: 0.1,
         opacity: 1
       },
+      defaultFormState: {
+        position: null,
+        txtModel: '//data.mars3d.cn/3dtiles/max-fsdzm/tileset.json',
+        chkProxy: false,
+        txtX: 0,
+        txtY: 0,
+        txtZ: 0,
+        depthTestAgainstTerrain: false,
+        rotationZ: 0.0,
+        rotationX: 0.0,
+        rotationY: 0.0,
+        scale: 1,
+        axis: '',
+        tilesEditorEnabled: false,
+        maximumScreenSpaceError: 8,
+        luminanceAtZenith: 0.1,
+        opacity: 1
+      },
       underground:null
     }
   },
@@ -206,7 +224,7 @@ export default {
         alpha: 0.5
       })
       this.map.addThing(this.underground)
-      //this.showModel();
+     // this.showModel();
     },
     opacityChange()
     {
@@ -269,8 +287,11 @@ export default {
       if (this.projectModel.position) {
         this.toConfig(JSON.parse(this.projectModel.position))
       }
+      else {
+        this.formState = this.defaultFormState
+      }
         this.formState.txtModel = this.projectModel.url
-      this.showModel()
+     this.showModel()
     },
 
     showModel() {
@@ -297,7 +318,28 @@ export default {
         } else {
           that.tilesEditor.enabled = false
         }
-        that.toConfig(event.target.center,that.tiles3dLayer)
+
+        const locParams = that.tiles3dLayer.center
+
+        if (locParams.alt < -1000 || locParams.alt > 10000) {
+          locParams.alt = 0 // 高度异常数据，自动赋值高度为0
+        }
+
+        that.formState.txtX = locParams.lng.toFixed(6)
+        that.formState.txtY = locParams.lat.toFixed(6)
+        that.formState.txtZ = locParams.alt.toFixed(6)
+        that.formState.luminanceAtZenith = data.luminanceAtZenith
+        that.formState.maximumScreenSpaceError = data.maximumScreenSpaceError
+
+        if (that.tiles3dLayer.transform) {
+          that.formState.rotationX = that.tiles3dLayer.rotation_x.toFixed(1)
+          that.formState.rotationY = that.tiles3dLayer.rotation_y.toFixed(1)
+          that.formState.rotationZ = that.tiles3dLayer.rotation_z.toFixed(1)
+          that.formState.scale = that.tiles3dLayer.scale || 1
+          that.formState.axis = that.tiles3dLayer.axis
+        } else {
+         // mapWork.getDefined(formState)
+        }
       })
     },
     toConfig(locParams,tiles3dLayer) {
@@ -334,6 +376,9 @@ export default {
       this.projectModel = this.modelList[this.selectModel]
       if (this.projectModel.position) {
         this.toConfig(JSON.parse(this.projectModel.position))
+      }
+      else {
+        this.formState = this.defaultFormState
       }
       this.formState.txtModel = this.projectModel.url
       this.showModel()
@@ -569,4 +614,5 @@ export default {
 .f-mb {
   margin-bottom: 10px;
 }
+
 </style>

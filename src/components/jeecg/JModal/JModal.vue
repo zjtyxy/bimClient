@@ -169,7 +169,7 @@ export default {
 </script>
 
 <style lang="less">
-  
+
   .j-modal-box {
     &.fullscreen {
       top: 0;
@@ -217,10 +217,10 @@ export default {
 
         .ant-modal-close {
           right: 56px;
-          color: rgba(0, 0, 0, 0.45);
+          color: rgba(255, 255, 255, 0.95);
 
           &:hover {
-            color: rgba(0, 0, 0, 0.75);
+            color: rgba(255, 255, 255, 0.95);
           }
         }
       }
