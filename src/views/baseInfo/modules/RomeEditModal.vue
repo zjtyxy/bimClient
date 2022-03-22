@@ -49,7 +49,7 @@ export default {
       checked: true,//地表透明
       configUrl: basePathUrl + 'config/config.json',
       widgetUrl: basePathUrl + 'config/widget.json',
-      url: {
+      urls: {
         add: "/base/unitMap/add",
         edit: "/base/unitMap/edit",
         queryById: "/base/unitMap/queryById"
@@ -59,8 +59,24 @@ export default {
   created() {
     this.mapOptions = {
       scene: {
-        scene3DOnly: false,
+        "sceneMode": 2,
+        "showSun": false,
+        "showMoon": false,
+        "showSkyBox": false,
+        "showSkyAtmosphere": false,
+        baseLayerPicker:false,
+        contextOption:{
+          webgl:{
+            alpha:true
+          }
+        },
+        "fog": false,
+        "fxaa": false,
         center: { lat: 31.83251, lng: 117.221054, alt: 183, heading: 355, pitch: -48 }
+      },
+      terrain: {
+        "url": "{dataServer}/terrain",
+        "show": false
       },
       control: {
         'homeButton': true,
@@ -86,13 +102,41 @@ export default {
           'crsDecimal': 0,
           'template': '<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>横{crsx}  纵{crsy}</div> <div>海拔：{alt}米</div> <div>层级：{level}</div><div>方向：{heading}°</div> <div>俯仰角：{pitch}°</div><div>视高：{cameraHeight}米</div>'
         }
-      }
+      },
+      basemaps: [
+        { "id": 10, "name": "地图底图", "type": "group" },
+        {
+          "id": 2021,
+          "pid": 10,
+          "name": "天地图影像",
+          "icon": "img/basemaps/tdt_img.png",
+          "type": "group",
+          "layers": [
+            { "name": "底图", "type": "tdt", "layer": "img_d", "key": ["9ae78c51a0a28f06444d541148496e36"] },
+            { "name": "注记", "type": "tdt", "layer": "img_z", "key": ["9ae78c51a0a28f06444d541148496e36"] }
+          ],
+
+        },
+        {
+          "pid": 10,
+          "name": "天地图电子",
+          "icon": "img/basemaps/tdt_vec.png",
+          "type": "group",
+          "layers": [
+            { "name": "底图", "type": "tdt", "layer": "vec_d", "key": ["9ae78c51a0a28f06444d541148496e36"] },
+            { "name": "注记", "type": "tdt", "layer": "vec_z", "key": ["9ae78c51a0a28f06444d541148496e36"] }
+          ],
+          "show": true
+        }
+    ]
 
     }
   },
   methods: {
     onMapload(mapins) {
       this.map = mapins
+
+      //this.map.setSceneOptions({"sceneMode":2 });
       this.$refs.romeEditor.mapOnload(this.map)
     },
 
@@ -131,10 +175,7 @@ export default {
       const that = this
       that.confirmLoading = true
       this.record.unitMap = JSON.stringify(roomMap) ;
-
-      let httpurl = that.url.edit
-      let method = 'put'
-      httpAction(httpurl, this.record, method).then((res) => {
+      httpAction(that.urls.edit, this.record, 'put').then((res) => {
         if (res.success) {
           that.$message.success(res.message)
           that.$emit('ok')

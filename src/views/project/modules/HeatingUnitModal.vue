@@ -8,7 +8,7 @@
     :okButtonProps="{ class:{'jee-hidden': disableSubmit} }"
     @cancel="handleCancel"
     cancelText="关闭">
-    <heating-unit-form ref="realForm" @ok="submitCallback" :disabled="disableSubmit"></heating-unit-form>
+    <heating-unit-form ref="realForm" @ok="submitCallback" :disabled="disableSubmit" :batchAdd="batchAdd"></heating-unit-form>
   </j-modal>
 </template>
 
@@ -23,6 +23,7 @@
     data () {
       return {
         title:'',
+        batchAdd:false,
         width:896,
         visible: false,
         disableSubmit: false
@@ -32,12 +33,14 @@
       add () {
         this.visible=true
         this.$nextTick(()=>{
+          this.$refs.realForm.batchAdd = this.batchAdd
           this.$refs.realForm.add();
         })
       },
       edit (record) {
         this.visible=true
         this.$nextTick(()=>{
+          this.$refs.realForm.batchAdd = false
           this.$refs.realForm.edit(record);
         })
       },

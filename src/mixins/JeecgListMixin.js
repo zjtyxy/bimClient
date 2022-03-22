@@ -231,6 +231,7 @@ export const JeecgListMixin = {
       this.$refs.modalForm.title = "新增";
       this.$refs.modalForm.disableSubmit = false;
     },
+
     handleTableChange(pagination, filters, sorter) {
       //分页、排序、筛选变化时触发
       //TODO 筛选

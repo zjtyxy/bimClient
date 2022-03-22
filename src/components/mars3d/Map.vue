@@ -6,7 +6,7 @@
 import Vue from 'vue'
 import  "@/assets/css/style.css";
 import 'mars3d/dist/mars3d.css'
-import 'mars3d-widget/dist/mars3d-widget.css'
+//import 'mars3d-widget/dist/mars3d-widget.css'
 import * as mars3d from 'mars3d'
 import 'mars3d-widget'
 import { httpAction, getActionAsync } from '@/api/manage'
@@ -63,11 +63,11 @@ export default {
   },
   destroyed() {
   //  mars3d.widget.destroy()
-    mars3d.widget.disable('/widgets/plot-model/widget.js');
-    mars3d.widget.disableAll( this[`map${this.mapKey}`]);
-    mars3d.widget.destroy()
-    this[`map${this.mapKey}`].destroy()
-    delete this[`map${this.mapKey}`]
+  //   mars3d.widget.disable('/widgets/plot-model/widget.js');
+  //   mars3d.widget.disableAll( this[`map${this.mapKey}`]);
+  //   mars3d.widget.destroy()
+  //   this[`map${this.mapKey}`].destroy()
+  //   delete this[`map${this.mapKey}`]
   },
 
   methods: {

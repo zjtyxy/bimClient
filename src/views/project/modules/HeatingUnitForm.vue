@@ -4,8 +4,18 @@
       <a-form-model ref="form" :model="model" :rules="validatorRules" slot="detail">
         <a-row>
           <a-col :span="12">
-            <a-form-model-item label="所属建筑" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="roomBuiding">
-              <j-dict-select-tag type="list" v-model="model.roomBuiding" dictCode="building,building_number,id" placeholder="请选择所属建筑" />
+<!--            <a-form-model-item label="所属建筑" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="roomBuiding">-->
+<!--              <j-dict-select-tag type="list" v-model="model.roomBuiding" dictCode="building,building_number,id" placeholder="请选择所属建筑" />-->
+<!--            </a-form-model-item>-->
+            <a-form-model-item label="所属建筑" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="roomBuidingNumber">
+              <j-popup
+                v-model="model.roomBuidingNumber"
+                field="roomBuidingNumber"
+                org-fields="id,building_number,project"
+                dest-fields="roomBuiding,roomBuidingNumber,project"
+                code="buiding_popup"
+                :multi="false"
+                @input="popupCallback"/>
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
@@ -34,7 +44,17 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="12">
-            <a-form-model-item label="所在楼层" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="roomLayer">
+            <a-form-model-item v-if="batchAdd==true" label="开始楼层" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="roomLayer">
+              <a-input-number v-model="model.roomLayerStart" placeholder="请输入所在楼层" style="width: 100%" />
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-model-item v-if="batchAdd" label="结束楼层" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="roomLayer">
+              <a-input-number v-model="model.roomLayerEnd" placeholder="请输入所在楼层" style="width: 100%" />
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-model-item v-if="batchAdd==false" label="所在楼层" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="roomLayer">
               <a-input-number v-model="model.roomLayer" placeholder="请输入所在楼层" style="width: 100%" />
             </a-form-model-item>
           </a-col>
@@ -91,6 +111,7 @@
     },
     data () {
       return {
+        batchAdd:false,
         model:{
          },
         labelCol: {
@@ -103,6 +124,10 @@
         },
         confirmLoading: false,
         validatorRules: {
+          roomBuiding: [
+            { required: true, message: '请输入所属建筑!'},
+          ],
+
         },
         url: {
           add: "/project/heatingUnit/add",
@@ -118,6 +143,7 @@
     },
     created () {
        //备份model原始值
+      console.log("xxxxxxxxxxxxxxxx",this.batchAdd)
       this.modelDefault = JSON.parse(JSON.stringify(this.model));
     },
     methods: {
@@ -154,7 +180,7 @@
               that.confirmLoading = false;
             })
           }
-         
+
         })
       },
       popupCallback(value,row){

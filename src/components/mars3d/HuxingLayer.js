@@ -95,15 +95,38 @@ export default class HuxingLayer extends mars3d.layer.GraphicLayer {
     const flrH = attr.floorh || 0 // 底面高度
     const lyrH = attr.layerh || 0 // 楼层高度
 
+    var bmaterial =new Cesium.ImageMaterialProperty({
+      image:'http://localhost:3000/lib/Cesium/Assets/Textures/moonSmall.jpg',
+      color: Cesium.Color.BLUE,
+      repeat : new Cesium.Cartesian2(4, 4)
+    });
+    bmaterial = new Cesium.Material({
+      'fabric': {
+        'type': 'Image',
+        'uniforms': {
+          'image':'../img/textures/lumian.jpg',
+           //'color': Cesium.Color.WHITE.withAlpha(1),
+          repeat : new Cesium.Cartesian2(4096, 1024)
+        }
+      }
+    })
+
     const primitiveBian = new mars3d.graphic.CorridorPrimitive({
       positions: positions,
       style: {
         height: flrH,
-        diffHeight: lyrH,
+        diffHeight: lyrH-0.1,
         width: 0.2,
         cornerType: Cesium.CornerType.MITERED,
-        color: "rgba(0,255,250,0.4)"
+        //material: bmaterial,
+       //  appearance: new Cesium.MaterialAppearance({
+       //    'translucent': !1,
+       //    'flat': !0,
+       //    'material':bmaterial
+       //  }),
+       color: "rgba(0,255,250,0.8)"
       },
+
       attr: attr
     })
     this.addGraphic(primitiveBian)
@@ -121,7 +144,20 @@ export default class HuxingLayer extends mars3d.layer.GraphicLayer {
       attr: attr
     })
     this.addGraphic(primitiveDi)
-
+    const primitiveDing = new mars3d.graphic.PolygonEntity({
+      positions: positions,
+      style: {
+        height: flrH+lyrH-0.1,
+        diffHeight: 0.1,
+        color: "rgb(66, 59, 73)",
+      //  material: bmaterial,
+        outline: true,
+        outlineWidth: 1,
+        outlineColor: "#778899"
+      },
+      attr: attr
+    })
+    this.addGraphic(primitiveDing)
     // 记录到缓存中
     const loudongHao = attr.LDH // 楼栋号
     const cengHao = attr.CH // 层号
@@ -131,6 +167,7 @@ export default class HuxingLayer extends mars3d.layer.GraphicLayer {
 
     this._cache_huxin[loudongHao][cengHao].push(primitiveBian)
     this._cache_huxin[loudongHao][cengHao].push(primitiveDi)
+    this._cache_huxin[loudongHao][cengHao].push(primitiveDing)
   }
 
   _graphic_clickHandler(event) {

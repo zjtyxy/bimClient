@@ -6,8 +6,7 @@
         <a-row :gutter="24">
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <a-form-item label="所属项目">
-              <j-dict-select-tag placeholder="请选择所属项目" v-model="queryParam.project" dictCode="bim_project
-,name,id"/>
+              <j-dict-select-tag placeholder="请选择所属项目" v-model="queryParam.project" dictCode="bim_project,name,id"/>
             </a-form-item>
           </a-col>
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
@@ -90,7 +89,8 @@
 
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
-
+           <a-divider type="vertical"/>
+            <a @click="roomMapShow(record)">户型展示</a>
           <a-divider type="vertical" />
           <a-dropdown>
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
@@ -111,6 +111,7 @@
     </div>
 
     <building-modal ref="modalForm" @ok="modalFormOk"></building-modal>
+    <room-show-modal ref="roomShowModal"></room-show-modal>
   </a-card>
 </template>
 
@@ -121,11 +122,13 @@
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import BuildingModal from './modules/BuildingModal'
   import {filterMultiDictText} from '@/components/dict/JDictSelectUtil'
+  import RoomShowModal from '@views/baseInfo/modules/RoomShowModal'
 
   export default {
     name: 'BuildingList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
+      RoomShowModal,
       BuildingModal
     },
     data () {
@@ -194,6 +197,10 @@
     },
     methods: {
       initDictConfig(){
+      },
+      roomMapShow(record) {
+        //需要查询到相应的房间数据进行显示
+        this.$refs.roomShowModal.show(record)
       },
       getSuperFieldList(){
         let fieldList=[];

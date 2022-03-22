@@ -12,22 +12,22 @@
       <a-form-model ref="form" :model="model" :rules="validatorRules">
         <a-row>
 
-          <a-col :span="24">
+          <a-col :span="12">
             <a-form-model-item label="类型" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="type">
               <j-category-select v-model="model.type" pcode="B03" placeholder="请选择类型"  />
             </a-form-model-item>
           </a-col>
-          <a-col :span="24">
+          <a-col :span="12">
             <a-form-model-item label="名称" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="name">
               <a-input v-model="model.name" placeholder="请输入名称" ></a-input>
             </a-form-model-item>
           </a-col>
-          <a-col :span="24">
+          <a-col :span="12">
             <a-form-model-item label="设备配置" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="deviceProfileId">
               <j-dict-select-tag type="list" v-model="model.deviceProfileId" dictCode="device_profile,name,id" placeholder="请选择设备配置" />
             </a-form-model-item>
           </a-col>
-          <a-col :span="24">
+          <a-col :span="12">
             <a-form-model-item label="所属客户" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="customerName">
               <j-popup
                 v-model="model.customerName"
@@ -45,12 +45,12 @@
 <!--              <a-input v-model="model.labelT" placeholder="请输入标记" ></a-input>-->
 <!--            </a-form-model-item>-->
 <!--          </a-col>-->
-          <a-col :span="24">
+          <a-col :span="12">
             <a-form-model-item label="描述" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="searchText">
               <a-input v-model="model.searchText" placeholder="请输入描述" ></a-input>
             </a-form-model-item>
           </a-col>
-          <a-col :span="24">
+          <a-col :span="12">
             <a-form-model-item label="附加信息" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="additionalInfo">
               <a-input v-model="model.additionalInfo" placeholder="请输入附加信息" ></a-input>
             </a-form-model-item>
@@ -81,11 +81,42 @@
 <!--              <a-input v-model="model.authToken" placeholder="请输入凭证" ></a-input>-->
 <!--            </a-form-model-item>-->
 <!--          </a-col>-->
-<!--          <a-col :span="24">-->
-<!--            <a-form-model-item label="地理数据" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="geoInfo">-->
-<!--              <a-textarea v-model="model.geoInfo" rows="4" placeholder="请输入地理数据" disabled/>-->
-<!--            </a-form-model-item>-->
-<!--          </a-col>-->
+          <a-col :span="12" >
+            <a-form-model-item label="所属项目" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="project">
+              <j-dict-select-tag type="list" v-model="model.project" dictCode="bim_project,name,id" placeholder="请选择所属项目" />
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="12" >
+            <a-form-model-item label="所属建筑" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="buiding">
+              <j-popup
+                v-model="model.buiding"
+                field="buiding"
+                org-fields="id,building_number,project"
+                dest-fields="buidingId,buiding,project"
+                code="buiding_popup"
+                :multi="true"
+                @input="popupCallback"
+              />
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="12" >
+            <a-form-model-item label="所属房屋" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="house">
+              <j-popup
+                v-model="model.house"
+                field="house"
+                org-fields="id,name,room_buiding,room_buiding_number,project"
+                dest-fields="houseId,house,buidingId,buiding,project"
+                code="room_popup"
+                :multi="true"
+                @input="popupCallback"
+              />
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="地理数据" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="geoInfo">
+              <j-select-plot id="test1" v-model="model.geoInfo" plot-type="3"></j-select-plot>
+            </a-form-model-item>
+          </a-col>
         </a-row>
       </a-form-model>
     </a-spin>
@@ -96,10 +127,12 @@
 
   import { httpAction } from '@/api/manage'
   import { validateDuplicateValue } from '@/utils/util'
+  import JSelectPlot from '@comp/jeecgbiz/JSelectPlot'
 
   export default {
     name: "DeviceModal",
     components: {
+      JSelectPlot
     },
     data () {
       return {

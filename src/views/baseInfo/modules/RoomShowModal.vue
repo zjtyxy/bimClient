@@ -49,10 +49,8 @@ export default {
       checked: true,//地表透明
       configUrl: basePathUrl + 'config/config.json',
       widgetUrl: basePathUrl + 'config/widget.json',
-      url: {
-        add: "/base/unitMap/add",
-        edit: "/base/unitMap/edit",
-        queryById: "/base/unitMap/queryById"
+      urls: {
+        queryByMainId: '/project/building/roomlist'
       }
     }
   },
@@ -116,64 +114,113 @@ export default {
     show(record) {
       this.visible = true
       this.record = record
-      const that = this;
-      setTimeout(() => {
-        that.showModel(JSON.parse(record.unitMap))
-      }, 1000)
+      var that = this
+      getAction(that.urls.queryByMainId, record).then((res) => {
+        if (res.success) {
+          that.showBuidingModel(res.result)
+          setTimeout(() => {
+            that.showBuidingModel(res.result)
+          }, 1000)
+        } else {
+          that.$message.warning(res.message)
+        }
+      }).finally(() => {
+        that.confirmLoading = false
+      })
+
+      // setTimeout(() => {
+      //   that.showModel(JSON.parse(record.unitMap))
+      // }, 1000)
 
     },
-    showModel(projectModel) {
-      let roomData ={
-        "type": "FeatureCollection",
-        "features": []
+    showBuidingModel(roomList) {
+      let roomData = {
+        'type': 'FeatureCollection',
+        'features': []
       }
 
-
-      for(var i=1;i<31;i++)
-      {
-
-        let ceng  = {
-          "type": "Feature",
-          "geometry": {
-            "type": "MultiPolygon",
-            "coordinates":[]
+      for (var i = 0; i < roomList.length; i++) {
+        var room = roomList[i]
+        let ceng = {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'MultiPolygon',
+            'coordinates': []
           },
-          properties : {
-            "floorh": i*3+29.2,
-            "layerh": 3,
-            "CH": i,
-            "DYH": "2单元",
-            "FH": i+"05号",
-            "WZ": "2单元"+i+"层05号房",
-            "LDH": "1"
+          properties: {
+            'floorh': room.roomLayer * room.buildingHeight + room.baseHeight,
+            'layerh': room.buildingHeight,
+            'CH': room.roomLayer,
+            'DYH': room.roomUnit + '单元',
+            'FH': room.roomLayer +"层"+ room.roomNumber,
+            'WZ': room.roomUnit + '单元' + room.roomLayer +"层"+ room.roomNumber,
+            'LDH': '1'
           },
-          id:i
+          id: room.id
         }
-
-
-        for(var j=0;j<projectModel.features.length;j++)
-        {
+        var projectModel = JSON.parse(room.roomDiagram);
+        for (var j = 0; j < projectModel.features.length; j++) {
           let layer = JSON.parse(JSON.stringify(projectModel.features[j]))
-          if(layer.geometry.type='Polygon')
-          {
-            layer.geometry.coordinates[0].push(layer.geometry.coordinates[0][0]);
+          if (layer.geometry.type = 'Polygon') {
+            layer.geometry.coordinates[0].push(layer.geometry.coordinates[0][0])
           }
           ceng.geometry.coordinates.push(layer.geometry.coordinates)
         }
-        debugger
+        roomData.features.push(ceng)
+      }
+      var graphicLayer = new HuxingLayer({
+        data: roomData,
+        flyTo: true
+      })
+      this.map.addLayer(graphicLayer)
+    },
+    showModel(projectModel) {
+      let roomData = {
+        'type': 'FeatureCollection',
+        'features': []
+      }
+
+      for (var i = 1; i < 31; i++) {
+
+        let ceng = {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'MultiPolygon',
+            'coordinates': []
+          },
+          properties: {
+            'floorh': i * 3 + 29.2,
+            'layerh': 3,
+            'CH': i,
+            'DYH': '2单元',
+            'FH': i + '05号',
+            'WZ': '2单元' + i + '层05号房',
+            'LDH': '1'
+          },
+          id: i
+        }
+
+        for (var j = 0; j < projectModel.features.length; j++) {
+          let layer = JSON.parse(JSON.stringify(projectModel.features[j]))
+          if (layer.geometry.type = 'Polygon') {
+            layer.geometry.coordinates[0].push(layer.geometry.coordinates[0][0])
+          }
+          ceng.geometry.coordinates.push(layer.geometry.coordinates)
+        }
+
         roomData.features.push(ceng)
       }
 
       var graphicLayer = new HuxingLayer({
         data: roomData,
-        flyTo:true
+        flyTo: true
       })
       this.map.addLayer(graphicLayer)
     },
     saveRoomMap(roomMap) {
       const that = this
       that.confirmLoading = true
-      this.record.unitMap = JSON.stringify(roomMap) ;
+      this.record.unitMap = JSON.stringify(roomMap)
 
       let httpurl = that.url.edit
       let method = 'put'
