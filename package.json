@@ -11,7 +11,9 @@
   },
 
   "dependencies": {
+    "@iconify/vue": "^3.1.2",
     "ant-design-vue": "^1.7.2",
+    "echarts": "^5.2.2",
     "@jeecg/antd-online-mini": "3.0.0-RC",
     "@antv/data-set": "^0.11.4",
     "viser-vue": "^2.4.8",
@@ -46,14 +48,15 @@
     "vxe-table": "2.9.13",
     "vxe-table-plugin-antd": "1.8.10",
     "cron-parser": "^2.10.0",
-    "mars3d": "^3.1.16",
-    "mars3d-widget": "^3.1.16",
+    "mars3d": "3.1.16",
+    "mars3d-widget": "^3.2.4",
     "jquery" : "^2.2.3",
     "core-js": "^3.12.0",
     "@icon-park/vue": "^1.3.5",
     "vue-color-kit": "1.0.0"
   },
   "devDependencies": {
+
     "@babel/polyfill": "^7.2.5",
     "@vue/cli-plugin-babel": "^3.3.0",
     "@vue/cli-plugin-eslint": "^3.3.0",

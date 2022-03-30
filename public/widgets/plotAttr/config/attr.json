@@ -337,6 +337,14 @@
 
       { "name": "hasShadows", "label": "是否阴影", "type": "radio", "defval": true },
       { "name": "clampToGround", "label": "是否贴地", "type": "radio", "defval": false }
+    ],
+    "attr": [
+      { "name": "id", "label": "主键", "type": "label", "defval": "" },
+      { "name": "entityId", "label": "实体主键", "type": "label", "defval": "" },
+      { "name": "name", "label": "名称", "type": "text", "defval": "" },
+      { "name": "type", "label": "类型", "type": "text", "defval": "" },
+      { "name": "_layer", "label": "所属图层", "type": "label", "defval": "" },
+      { "name": "remark", "label": "备注", "type": "textarea", "defval": "" }
     ]
   },
 

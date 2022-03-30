@@ -81,7 +81,10 @@
     get defaultAttrList() {
       return [
         { name: "id", label: "主键", type: "label", defval: "" },
+        { name: "entityId", label: "实体主键", type: "label", defval: "" },
         { name: "name", label: "名称", type: "text", defval: "" },
+        { name: "type", label: "类型", type: "text", defval: "" },
+        { name: "_layer", label: "所属图层", type: "label", defval: "" },
         { name: "remark", label: "备注", type: "textarea", defval: "" },
       ];
     }
@@ -90,7 +93,7 @@
     }
     getLayerName() {
       let graphic = this.config.graphic;
-      return graphic?._layer?.name || "";
+      return graphic._layer.name || "";
     }
 
     startEditing(graphic, lonlats) {
@@ -112,7 +115,6 @@
     //更新图上的属性
     updateAttr2map(attr) {
       console.log("更新属性", attr);
-
       var graphic = this.config.graphic; //当前编辑的graphic
       graphic.setOptions(attr);
     }

@@ -1,11 +1,9 @@
 <template>
   <div class="components-input-demo-presuffix">
-    <!---->
     <a-input @click="openModal" placeholder="请点击打开地图标绘" v-model="departNames" readOnly :disabled="disabled">
       <a-icon slot="prefix" type="cluster" title="地图标绘控件"/>
       <a-icon v-if="departIds" slot="suffix" type="close-circle" @click="handleEmpty" title="清空"/>
     </a-input>
-
     <plot-map-modal
       ref="innerDepartSelectModal"
       :modal-width="modalWidth"
@@ -13,6 +11,7 @@
       :plotType="plotType"
       :rootOpened="rootOpened"
       :depart-id="departNames"
+      :mapOptions="mapOptions"
       @ok="handleOK"
       @initComp="initComp"/>
   </div>
@@ -42,6 +41,11 @@ export default {
     id: {
       type: String,
       default: '',
+      required: false
+    },
+    mapOptions:{
+      type:Object,
+      default:{},
       required: false
     },
     rootOpened: {

@@ -59,7 +59,12 @@ export default {
       type: Number,
       default: 1,
       required: false
-    }
+    },
+    mapOptions:{
+      type:Object,
+      default:{},
+      required: false
+    },
   },
   methods: {
     onMapload(map1) {

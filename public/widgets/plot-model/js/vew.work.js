@@ -82,7 +82,7 @@ var treeObj, lastRightClickTreeId, lastRightClickTreeNode, plotFile = {
 }, plotlist = {
   'bindSelList': function () {
     var that = this, selPlotList = $('#sel_plot_list')
-    $.getJSON('http://localhost:8080/jeecg-boot/base/bimGtlfModel/listMap', function (res) {
+    $.getJSON('http://localhost:8888/jeecg-boot/base/bimGtlfModel/listMap', function (res) {
       var curIndex, key, htmlstr = '', count = 0
       var result = res.result
       for (key in result) {
@@ -102,7 +102,7 @@ var treeObj, lastRightClickTreeId, lastRightClickTreeNode, plotFile = {
     var htmlstr = ''
     for (var i = 0; i < plotList.length; i++) {
       var mstyle, mimage, mclass, mColor, plotModel = plotList[i]
-      plotModel.url && (plotModel.style = {}, plotModel.style.url = plotModel.url)
+      plotModel.url && (plotModel.style = {},plotModel.style.scale = plotModel.defaultSize, plotModel.style.url = plotModel.url)
 
       if (!plotModel.hide) {
         plotModel.style && plotModel.style.url && (plotModel.style.url = thisWidget.updateTemplateValues(plotModel.style.url));

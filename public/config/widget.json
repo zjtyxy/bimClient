@@ -17,15 +17,19 @@
   },
   "openAtStart": [
     {
-      "name": "工具按钮",
-      "uri": "/widgets/toolbtn-widget/widget.js"
-    },
-    {
       "name": "放大缩小按钮",
       "uri": "/widgets/toolButton/zoom.js"
+    },
+    {
+      "name": "工具按钮",
+      "uri": "/widgets/toolbtn-widget/widget.js"
     }
   ],
   "widgets": [
+    {
+      "name": "工具按钮",
+      "uri": "/widgets/toolbtn-widget/widget.js"
+    },
     {
       "name": "模板-iframe弹窗",
       "uri": "/widgets/_example/widget.js",
@@ -52,8 +56,8 @@
       "uri": "/widgets/_example_2win/widget.js"
     },
     {
-      "name": "模板-append模板",
-      "uri": "/widgets/_example_append/widget.js"
+      "name": "模型标绘",
+      "uri": "/widgets/plot-model/widget.js"
     },
 
     {
@@ -83,14 +87,13 @@
       "openAtStart": false
     },
     {
-      "name": "剖面分析图表",
-      "uri": "/widgets/measureChars/widget.js",
+      "name": "设备标绘",
+      "uri": "/widgets/plot-model/widget.js",
       "windowOptions": {
         "noTitle": true,
         "maxmin": false,
         "position": {
-          "bottom": 30,
-          "left": 30,
+          "bottom": 50,
           "right": 60
         }
       },
@@ -195,17 +198,6 @@
       },
       "hasClear": false,
       "openAtStart": false
-    },
-    {
-      "name": "模型库",
-      "uri": "/widgets/plot-model/widget.js",
-      "windowOptions": {
-        "position": {
-          "top": 145,
-          "bottom": 30,
-          "right": 5
-        }
-      }
     },
     {
       "name": "分组名称编辑",

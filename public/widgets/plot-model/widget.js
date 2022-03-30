@@ -1,4 +1,4 @@
-'use script'; //开发环境建议开启严格模式
+'use script';
 (function (window, mars3d) {
   class MyWidget extends mars3d.widget.BaseWidget {
     get resources() {
@@ -9,7 +9,7 @@
       return {
         'type': 'window',
         'url': 'view.html',
-        'windowOptions': { 'width': 0xfa, 'position': { 'top': 0x32, 'right': 0x5, 'bottom': 0x5 } }
+        'windowOptions': { 'width': 0xfa, 'position': { 'top': 100, 'right': 5, 'bottom': 5 } }
       }
     }
 
@@ -27,59 +27,60 @@
       this.graphicGroupLayer.bindContextMenu([{
         'text': '删除对象',
         'iconCls': 'fa fa-trash-o',
-        'callback': function (_0x452763) {
-          _0x452763.graphic && that.deleteEntity(_0x452763.graphic)
+        'callback': function (event) {
+          event.graphic && that.deleteEntity(event.graphic)
         }
       }]);
 
-      this.graphicGroupLayer.on(mars3d.EventType.drawCreated, function (_0x40bfe7) {
+      this.graphicGroupLayer.on(mars3d.EventType.drawCreated, function (event) {
         that.showLayerTree()
-        that.startEditing(_0x40bfe7.graphic)
-      }), this.graphicGroupLayer.on(mars3d.EventType.load, function (_0x550bb1) {
+        that.startEditing(event.graphic)
+      }), this.graphicGroupLayer.on(mars3d.EventType.load, function (event) {
         haoutil.loading.hide()
-      }), this.graphicGroupLayer.on(mars3d.EventType.editStart, function (_0x5bc1c3) {
-        that.startEditing(_0x5bc1c3.graphic)
-      }), this.graphicGroupLayer.on(mars3d.EventType.editMovePoint, function (_0x9b617a) {
-        that.startEditing(_0x9b617a.graphic)
-      }), this.graphicGroupLayer['on'](mars3d.EventType.editRemovePoint, function (_0x4c0de2) {
-        that.startEditing(_0x4c0de2.graphic)
-      }), this.graphicGroupLayer.on(mars3d.EventType.editStop, function (_0x2c350c) {
-        that.stopEditing(), that.sendSaveEntity(_0x2c350c.graphic), that.showLayerTree()
-      }), this.graphicGroupLayer['on'](mars3d.EventType.updateAttr, function (_0x34156) {
-        _0x34156.attr.name && that.viewWindow && that.viewWindow.treeWork.updateNode(_0x34156.graphic)
-      }), this.sendGetList()
+      }), this.graphicGroupLayer.on(mars3d.EventType.editStart, function (event) {
+        that.startEditing(event.graphic)
+      }), this.graphicGroupLayer.on(mars3d.EventType.editMovePoint, function (event) {
+        that.startEditing(event.graphic)
+      }), this.graphicGroupLayer.on(mars3d.EventType.editRemovePoint, function (event) {
+        that.startEditing(event.graphic)
+      }), this.graphicGroupLayer.on(mars3d.EventType.editStop, function (event) {
+        that.stopEditing(), that.sendSaveEntity(event.graphic), that.showLayerTree()
+      }), this.graphicGroupLayer.on(mars3d.EventType.updateAttr, function (event) {
+        event.attr.name && that.viewWindow && that.viewWindow.treeWork.updateNode(event.graphic)
+      })
 
     }
 
-    winCreateOK(_0x429710, _0x5242aa) {
-      this.viewWindow = _0x5242aa
+    winCreateOK(_0x429710, view) {
+      this.viewWindow = view
     }
 
     activate() {
-      this.graphicGroupLayer.hasEdit = !0x0
+      this.graphicGroupLayer.hasEdit = !0
+      this.sendGetList()
     }
 
     disable() {
       this.stopEditing(), this.graphicGroupLayer.stopDraw(), this.graphicGroupLayer.hasEdit = !1, this.viewWindow = null
     }
 
-    getDefStyle(_0x3a897e) {
-      return getGraphicDefStyle(_0x3a897e)
+    getDefStyle(modelId) {
+      return getGraphicDefStyle(modelId)
     }
 
     updateTemplateValues(_0x2027c4) {
       return this.map.options.templateValues ? mars3d.Util.template(_0x2027c4, this.map.options.templateValues) : _0x2027c4
     }
 
-    hasEdit(_0x4ababb) {
-      this.graphicGroupLayer.hasEdit = _0x4ababb
+    hasEdit(isEdit) {
+      this.graphicGroupLayer.hasEdit = isEdit
     }
 
-    hasPopup(_0x12bfb2) {
+    hasPopup(isPopup) {
       {
-        var _0x3b60ac = this
-        _0x12bfb2 ? this.graphicGroupLayer['bindPopup'](function (_0x5e6f69) {
-          _0x5e6f69 = _0x5e6f69.graphic
+        var that = this
+        isPopup ? this.graphicGroupLayer.bindPopup(function (event) {
+          event = event.graphic
           return mars3d.Util.getTemplateHtml({
             'title': '属性编辑',
             'template': [{ 'field': 'name', 'name': '名称' }, {
@@ -90,20 +91,16 @@
               'name': '备注',
               'type': 'textarea'
             }, { 'name': '确定', 'type': 'button' }],
-            'attr': _0x5e6f69.attr,
+            'attr': event.attr,
             'edit': !0,
             'width': 0xbe
           })
         }, {
-          'onAdd': function (_0x446e77) {
-            var _0x360666 = _0x446e77['id'], _0x4551ef = _0x446e77.graphic
-            $((('#' + _0x360666) + ' .mars3d-popup-btn')).click(function (_0x24c00c) {
-              $(('#' + _0x360666) + ' .mars3d-popup-edititem').each(function () {
-                var _0x5a67ce = $(this)['val'](),
-                  _0x1f9d2b = $(this).attr('data-type')
-                _0x4551ef['attr'][_0x1f9d2b] = _0x5a67ce
-
-              }), _0x3b60ac.graphicGroupLayer['closePopup']()
+          'onAdd': function (event) {
+            $((('#' + event.id) + ' .mars3d-popup-btn')).click(function (_0x24c00c) {
+            $(('#' + event.id) + ' .mars3d-popup-edititem').each(function () {
+              event.graphic.attr[$(this).attr('data-type')] = $(this)['val']()
+              }), that.graphicGroupLayer['closePopup']()
             })
 
           }, 'onRemove': function (_0x3e3b2b, _0x4eaed5) {
@@ -112,27 +109,29 @@
       }
     }
 
-    startDraw(_0x2e1fe3) {
-      _0x2e1fe3 && ('model' == _0x2e1fe3['type']) ? (_0x2e1fe3.colorBlendMode = Cesium.ColorBlendMode['MIX'],
-        _0x2e1fe3.drawShow = !0x0, haoutil.loading.show()) : haoutil.loading.hide(), console.log('开始绘制', _0x2e1fe3), this.graphicGroupLayer.startDraw(_0x2e1fe3)
+    startDraw(glayer) {
+      glayer && ('model' == glayer.type) ? (glayer.colorBlendMode = Cesium.ColorBlendMode.MIX,
+        glayer.drawShow = !0, haoutil.loading.show()) : haoutil.loading.hide(),
+        console.log('开始绘制', glayer), this.graphicGroupLayer.startDraw(glayer)
     }
 
     endDraw() {
       this.graphicGroupLayer.endDraw()
     }
 
-    startEditingById(_0x5eabe1) {
-      _0x5eabe1 = this.graphicGroupLayer.getGraphicById(_0x5eabe1)
-      null != _0x5eabe1 && (_0x5eabe1.flyTo(), this.graphicGroupLayer.startEditing(_0x5eabe1))
+    startEditingById(layerId) {
+      var glayer = this.graphicGroupLayer.getGraphicById(layerId)
+      null != glayer && (glayer.flyTo(), this.graphicGroupLayer.startEditing(glayer))
     }
 
-    startEditing(_0x2ce7a5) {
-      var _0x155ac0
-      clearTimeout(this.timeTik), null != this.viewWindow && ((_0x155ac0 = mars3d.widget.getClass('/widgets/plotAttr/widget.js')) && _0x155ac0.isActivate ? _0x155ac0.startEditing(_0x2ce7a5, _0x2ce7a5.coordinates) : mars3d.widget['activate']({
+    startEditing(graphic) {
+      var widget  = mars3d.widget.getClass('/widgets/plotAttr/widget.js')
+      clearTimeout(this.timeTik),
+     (widget) && widget.isActivate ? widget.startEditing(graphic, graphic.coordinates) : mars3d.widget.activate({
         'uri': '/widgets/plotAttr/widget.js',
-        'graphic': _0x2ce7a5,
-        'lonlats': _0x2ce7a5.coordinates
-      }))
+        'graphic': graphic,
+        'lonlats': graphic.coordinates
+      })
 
     }
 
@@ -142,12 +141,19 @@
       }, 0xc8)
     }
 
-    flyTo(_0x360e81) {
-      this.map.flyToGraphic(_0x360e81, { 'scale': 1.9, 'radius': 0x3e8 })
+    flyTo(graphic) {
+      this.map.flyToGraphic(graphic, { 'scale': 1.9, 'radius': 20 })
     }
 
     getGeoJson(_0x48a115) {
-      return (_0x48a115 || this.graphicGroupLayer).toGeoJSON()
+      var json =  (_0x48a115 || this.graphicGroupLayer).toGeoJSON()
+      for(var i=0;i<json.features.length; i++)
+      {
+        if(json.features[i].properties.entityId) continue;
+        json.features[i].properties.entityId = json.features[i].properties.id;
+      }
+
+      return json;
     }
 
     downloadJson(name, _0x3a2134) {
@@ -259,13 +265,24 @@
     moveToLayer(graphic, layer) {
       this.graphicGroupLayer.moveToLayer(graphic, layer), this.showLayerTree()
     }
-
+     // 启动加载本地缓存
     sendGetList() {
-      var json1 = haoutil.storage.get(this.storageName);
-      (null == json1 || ('null' == json1) || (this.loadGeoJSON(JSON.parse(json1), {
-        'clear': true,
-        'flyTo': true
-      })))
+     // if(window.isVue)
+      {
+        //从服务器加载数据
+        var json1 = this.config.modelData;
+        debugger
+        (null == json1 || ('null' == json1) || (this.loadGeoJSON(json1, {
+          'clear': true,
+          'flyTo': true
+        })))
+      }
+
+      // var json1 = haoutil.storage.get(this.storageName);
+      // (null == json1 || ('null' == json1) || (this.loadGeoJSON(JSON.parse(json1), {
+      //   'clear': true,
+      //   'flyTo': true
+      // })))
     }
 
     sendSaveEntity(_0x152dbf) {

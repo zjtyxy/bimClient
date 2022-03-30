@@ -14,52 +14,56 @@
     }
 
     create() {
-      var _0x4ab5ca = this
-      this.storageName = 'mars3d_plot', this.graphicGroupLayer = new mars3d[('layer')]['GraphicGroupLayer']({
+      var that = this
+      this.storageName = 'mars3d_plot',
+        this.graphicGroupLayer = new mars3d[('layer')]['GraphicGroupLayer']({
         'name': this.config.name,
         'pid': 0x63,
         'defaultLayer': '默认分组',
         'isRestorePositions': !0x1,
         'hasEdit': !0x1
       }), this.map.addLayer(this.graphicGroupLayer)
-      var _0x29e49c = this
-      this['graphicGroupLayer']['bindContextMenu']([{
+      this.graphicGroupLayer = new mars3d.layer.GraphicGroupLayer({
+        'name': '自定义房间',
+        'pid': 0x63,
+        'defaultLayer': '默认分组',
+        'isRestorePositions': !1,
+        'hasEdit': !1
+      });
+      this.map.addLayer(this.graphicGroupLayer);
+      var that = this
+      this.graphicGroupLayer.bindContextMenu([{
         'text': '删除对象',
         'iconCls': 'fa fa-trash-o',
         'callback': function (_0x2c76b9) {
           _0x2c76b9 = _0x2c76b9.graphic
-          _0x2c76b9 && _0x29e49c.deleteEntity(_0x2c76b9)
+          _0x2c76b9 && that.deleteEntity(_0x2c76b9)
         }
-      }]), this.graphicGroupLayer['on'](mars3d.EventType.drawCreated, function (_0x4bf26f) {
-          _0x4ab5ca['showLayerTree']()
-          _0x4bf26f = _0x4bf26f.graphic
-          _0x4ab5ca.startEditing(_0x4bf26f)
-
-      }), this.graphicGroupLayer['on'](mars3d['EventType']['load'], function (_0x8bc416) {
+      }]);
+      this.graphicGroupLayer.on(mars3d.EventType.drawCreated, function (event) {
+        that.showLayerTree()
+        that.startEditing(event.graphic)
+      })
+      this.graphicGroupLayer.on(mars3d.EventType.load, function (event) {
         haoutil.loading.hide()
-      }), this.graphicGroupLayer['on'](mars3d.EventType.editStart, function (_0xe51d88) {
-        _0xe51d88 = _0xe51d88.graphic
-        _0x4ab5ca['startEditing'](_0xe51d88)
-      }), this.graphicGroupLayer['on'](mars3d.EventType.editMovePoint, function (_0x5dbda1) {
-        _0x5dbda1 = _0x5dbda1.graphic
-        _0x4ab5ca.startEditing(_0x5dbda1)
-      }), this.graphicGroupLayer['on'](mars3d['EventType'].editRemovePoint, function (_0x47d8f3) {
-        _0x47d8f3 = _0x47d8f3.graphic
-        _0x4ab5ca.startEditing(_0x47d8f3)
-      }), this.graphicGroupLayer['on'](mars3d.EventType['editStop'], function (_0x2a37f1) {
-        _0x2a37f1 = _0x2a37f1.graphic
-        _0x4ab5ca.stopEditing(), _0x4ab5ca.sendSaveEntity(_0x2a37f1), _0x4ab5ca.showLayerTree()
-      }), this.graphicGroupLayer['on'](mars3d.EventType.updateAttr, function (_0xdfb087) {
-        var _0x326f8b = _0xdfb087.graphic
-        _0xdfb087.attr.name && _0x4ab5ca.viewWindow && _0x4ab5ca.viewWindow['treeWork'].updateNode(_0x326f8b)
-      }), this.graphicGroupLayer['on'](mars3d['EventType']['popupOpen'], function (_0x3c3de2) {
-        var _0x8eef53, _0x536813 = _0x3c3de2['container'].querySelector('.mars3d-popup-btn')
-        _0x536813 && (_0x8eef53 = _0x3c3de2.graphic, _0x536813['addEventListener']('click', function (_0x477f3a) {
+      }), this.graphicGroupLayer.on(mars3d.EventType.editStart, function (event) {
+        that.startEditing(event.graphic)
+      }), this.graphicGroupLayer.on(mars3d.EventType.editMovePoint, function (event) {
+        that.startEditing(event.graphic)
+      }), this.graphicGroupLayer.on(mars3d.EventType.editRemovePoint, function (event) {
+        that.startEditing(event.graphic)
+      }), this.graphicGroupLayer.on(mars3d.EventType.editStop, function (event) {
+        that.stopEditing(), that.sendSaveEntity(event.graphic), that.showLayerTree()
+      }), this.graphicGroupLayer.on(mars3d.EventType.updateAttr, function (event) {
+        event.attr.name && that.viewWindow && that.viewWindow.treeWork.updateNode(event.graphic)
+      }), this.graphicGroupLayer.on(mars3d.EventType.popupOpen, function (event) {
+        var _0x8eef53, _0x536813 = event.container.querySelector('.mars3d-popup-btn')
+        _0x536813 && (_0x8eef53 = event.graphic, _0x536813.addEventListener('click', function (_0x477f3a) {
           $('.mars3d-popup-edititem').each(function () {
             var _0x443274 = $(this).val(),
               _0x54dd31 = $(this).attr('data-type')
             _0x8eef53.attr[_0x54dd31] = _0x443274
-          }), _0x4ab5ca.map.closePopup()
+          }), that.map.closePopup()
 
         }))
 
@@ -101,7 +105,7 @@
             'name': '地址'
           }, { 'field': 'phone', 'name': '电话' }, {
             'field': 'remark',
-            'name': '备注',
+            'name': '备注111',
             'type': 'textarea'
           }, { 'name': '确定', 'type': 'button' }],
           'attr': _0x436910.attr,
@@ -113,7 +117,8 @@
     }
 
     startDraw(_0x5c65cf) {
-      switch (haoutil.loading['hide'](), _0x5c65cf.type) {
+      debugger
+      switch (haoutil.loading.hide(), _0x5c65cf.type) {
         case 'model':
           _0x5c65cf.drawShow = !0, haoutil.loading.show()
           break

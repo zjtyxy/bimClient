@@ -222,7 +222,22 @@
       },
       handleCategoryChange(value,backObj){
         this.model = Object.assign(backObj,this.model);
+      },
+      getMapOptions()//根据宿主，加载宿主模型和底图中心
+      {
+        if(this.model.house)//加载房屋模型
+        {
+
+        }else if(this.model.buiding)//加载建筑模型
+        {
+
+        }else if(this.model.project)//加载项目模型
+        {
+
+        }
+
       }
+
 
 
     }

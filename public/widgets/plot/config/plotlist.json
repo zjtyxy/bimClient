@@ -430,6 +430,11 @@
       "type": "corridor"
     },
     {
+      "name": "管线",
+      "image": "{plotPath}/img/corridor.jpg",
+      "type": "polylineVolume"
+    },
+    {
       "name": "贴地走廊",
       "image": "{plotPath}/img/corridor_clampToGround.jpg",
       "type": "corridor",
@@ -669,8 +674,7 @@
     {
       "name": "管道",
       "image": "{plotPath}/img/polylineVolume.jpg",
-      "type": "polylineVolume",
-      "hide": true
+      "type": "polylineVolume"
     },
     {
       "name": "多边立体",
